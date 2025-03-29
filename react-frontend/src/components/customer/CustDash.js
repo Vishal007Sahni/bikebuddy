@@ -1,223 +1,178 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+function CustDash() {
+  let navigate = useNavigate();
+  const [showLoginOptions, setShowLoginOptions] = useState(false);
+  const [showSignupOptions, setShowSignupOptions] = useState(false);
 
-import { useState ,useEffect} from 'react';
-import axios from 'axios'   
-import { Table} from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import'/node_modules/bootstrap/dist/css/bootstrap.min.css'
-import Contact from '../../Pages/Contact';
-
-
-
-
-
- 
- function CustDash() {
-
-  let navigate =useNavigate();
-  
-  //load customer data 
-  const user= JSON.parse(sessionStorage.getItem("user"));
-
-   
-  // const [rid,setRid] = useState('');
-
-  // States for registration
-  const [source, setSource] = useState('');
-  const [dest, setDestination] = useState('');
-
-  const [date, setDate] = useState('');
-  const [ride, setRide] = useState({});
- 
-  
-  
- 
-  // States for checking the errors
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(false);
- 
-  // Handling the name change
-  const handleSource = (e) => {
-    setSource(e.target.value);
-    setSubmitted(false);
-  };
-  const handleDestination = (e)=>{
-    setDestination(e.target.value);
-    setSubmitted(false);
-  }
- 
-  // Handling the email change
-  const handleDate = (e) => {
-    setDate(e.target.value);
-    setSubmitted(false);
-  };
- 
-  // Handling the password change
-  // const handleSubscribe = (e) => {
-  //   setSubscribe(e.target.value);
-  //   setSubmitted(false);
-  // };
-
-
- 
-  // Handling the form submission
-     function handleSubmit(){
-    // e.preventDefault();
-    if (source === '' || dest===''||  date === '' ) {
-      setError(true);
-    } else {
-    
-         axios.post('http://localhost:8080/customer/findride/normal',{
-            source,
-            dest,
-            date
-           
-
-        }).then(res => {console.log('posting data' ,res)
-    
-        sessionStorage.setItem('rides',JSON.stringify(res.data))
-        setTimeout(function showRides(){
-          if(sessionStorage.getItem('user')){
-            
-            navigate('/rides')
-          }
-          else{
-            navigate('/customer/login')
-          }
-           
-          },10)
-              
-      })
-        .catch(err=> console.log(err))
-      setSubmitted(true);
-      setError(false);
-    
-  };}
-
- 
-
-   
-  // Showing success message
-  const successMessage = () => {
-    return (
-      <div
-        className="success"
-        style={{
-          display: submitted ? '' : 'none',
-        }}>
-        <h1></h1>
-      </div>
-    );
-  };
- 
-//Showing error message if error is true
-  const errorMessage = () => {
-    return (
-      <div
-        className="error"
-        style={{
-          display: error ? '' : 'none',
-        }}>
-        <h1>Please enter all the fields</h1>
-      </div>
-    );
-  };
-
-  
- 
   return (
     <div className="form">
-    
- 
-      {/* Calling to the methods */}
-      <div className="messages">
-        {errorMessage()}
-        {successMessage()}
+      <div
+        style={{
+          width: "100vw",
+          height: "80vh",
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
+        <img
+          src={require("./landingpage.jpg")}
+          style={{
+            width: "100vw",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+          alt="Landing Page"
+        />
+        <h1
+          style={{
+            position: "absolute",
+            top: "15%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            color: "#fff",
+            fontSize: "3rem",
+            fontWeight: "bold",
+            textShadow: "2px 2px 10px rgba(0, 0, 0, 0.5)",
+            textAlign: "center",
+          }}
+        >
+          Ride Together, Save Forever!
+        </h1>
+
+        {/* LOGIN & SIGNUP BUTTONS */}
+        <div
+          style={{
+            position: "absolute",
+            top: "30%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            gap: "20px",
+          }}
+        >
+          <button
+            style={buttonStyle("#007BFF")}
+            onClick={() => setShowLoginOptions(!showLoginOptions)}
+          >
+            Login
+          </button>
+
+          <button
+            style={buttonStyle("#28A745")}
+            onClick={() => setShowSignupOptions(!showSignupOptions)}
+          >
+            Sign Up
+          </button>
+        </div>
       </div>
-      <div className="container">
-      <div className="row">
-      <div className="col-6"><img src={require("./backimg12.jpg")} height="300px" width="430px"  ></img></div>
-        <div  className="col-6 conta">
-      
-        <Table border={0} cellSpacing={0} cellPadding={7} className="findtable">
-      
-        {/* Labels and inputs for form data */}
-        <tbody>
-        <tr>
-            <td>
-        <label className="label">Source</label>
-        </td>
-        <td>
-        <input onChange={handleSource} className="input"
-          value={source} type="text" /> 
-        </td>
-        </tr>
 
-        <tr>
-            <td>
-        <label className="label">Destination</label> 
-            </td>
-       
-        <td> <input onChange={handleDestination} className="input"
-          value={dest} type="text"/> 
-        </td>
-        </tr>
-
-        <tr>
-            <td>
-        <label className="label">Date</label>
-        </td>
-        <td>
-        <input onChange={handleDate} className="input"
-          value={date}  type="date" /> 
-          </td>
-        </tr>
-        
-        
-        
-       
-        </tbody>
-
-        </Table>
-        <button  type="submit" onClick={handleSubmit}>
-          Search
-        </button> &nbsp; &nbsp;
-        <button onClick={()=>{navigate('/customer/login')}}>Customer Login</button>
+      {/* LOGIN OPTIONS */}
+      {showLoginOptions && (
+        <div style={modalStyle}>
+          <h3>Login As:</h3>
+          <button
+            style={modalButtonStyle}
+            onClick={() => navigate("/customer/login")}
+          >
+            Customer Login
+          </button>
+          <button
+            style={modalButtonStyle}
+            onClick={() => navigate("/driver/login")}
+          >
+            Driver Login
+          </button>
+          <button
+            style={cancelButtonStyle}
+            onClick={() => setShowLoginOptions(false)}
+          >
+            Cancel
+          </button>
         </div>
-        
-        </div>
-        </div>
-       
-        <div>
-              </div>
-        <div></div>
-     <div><hr /></div>
-     <div><h2>OR</h2></div>
+      )}
 
-        <div>
-          <button  onClick={()=>{navigate('/driver/login')}}>Add ride</button> 
+      {/* SIGNUP OPTIONS */}
+      {showSignupOptions && (
+        <div style={modalStyle}>
+          <h3>Sign Up As:</h3>
+          <button
+            style={modalButtonStyle}
+            onClick={() => navigate("/customer/register")}
+          >
+            Customer Sign Up
+          </button>
+          <button
+            style={modalButtonStyle}
+            onClick={() => navigate("/driver/register")}
+          >
+            Driver Sign Up
+          </button>
+          <button
+            style={cancelButtonStyle}
+            onClick={() => setShowSignupOptions(false)}
+          >
+            Cancel
+          </button>
         </div>
-
-      
-        
-        
-        <div>
-        {/* <button className="btn" onClick={()=>{navigate('/customer/previous_rides')}}>
-          Previous Rides
-        </button> */}
-            
-        </div>
-
-        <Contact/>
-      
-
-       
-      
+      )}
     </div>
   );
-      }
+}
+
+// Reusable button styles
+const buttonStyle = (bgColor) => ({
+  padding: "10px 20px",
+  fontSize: "1.2rem",
+  fontWeight: "bold",
+  backgroundColor: bgColor,
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  transition: "0.3s",
+  boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.3)",
+});
+
+const modalStyle = {
+  position: "absolute",
+  top: "40%",
+  left: "50%",
+  transform: "translateX(-50%)",
+  backgroundColor: "#fff",
+  padding: "20px",
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+  borderRadius: "10px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "10px",
+};
+
+const modalButtonStyle = {
+  padding: "10px 20px",
+  fontSize: "1rem",
+  fontWeight: "bold",
+  backgroundColor: "#007BFF",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  width: "150px",
+  transition: "0.3s",
+};
+
+const cancelButtonStyle = {
+  marginTop: "10px",
+  backgroundColor: "#DC3545",
+  color: "white",
+  padding: "8px 16px",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer",
+  fontSize: "1rem",
+};
 
 export default CustDash;
-
-
-    

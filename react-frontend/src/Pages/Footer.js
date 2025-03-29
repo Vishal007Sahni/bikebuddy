@@ -16,7 +16,7 @@ const Footer = () => {
         <h1 style={{ color: "white", 
                      textAlign: "center", 
                      marginTop: "-50px" }}>
-          JoinMyRide : A Web Based Applicaton for Bike Pooling 
+          BIKEBUDDY : A Web Based Applicaton for Bike Pooling 
         </h1>
         <Container>
           <Row>
