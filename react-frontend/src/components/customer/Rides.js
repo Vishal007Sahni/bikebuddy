@@ -1,96 +1,84 @@
-// import { useEffect,useState ,useRef} from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { Table} from 'react-bootstrap';
-// import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Table } from "react-bootstrap";
+import axios from "axios";
 
-// export default function Rides(){
+export default function Rides() {
+  let navigate = useNavigate();
+  const [rides, setRides] = useState([]);
 
-//     let navigate = useNavigate();
-//     const ref = useRef('');
+  useEffect(() => {
+    const storedRides = sessionStorage.getItem("rides");
+    if (!storedRides) {
+      const sampleData = [
+        {
+          rid: "123",
+          source: "A",
+          dest: "B",
+          date: "2025-04-01",
+          time: "10:00",
+          charges: 100,
+          rating: 4.5,
+        },
+      ];
+      sessionStorage.setItem("rides", JSON.stringify(sampleData));
+      setRides(sampleData);
+    } else {
+      setRides(JSON.parse(storedRides));
+    }
+  }, []);
 
-// const[rides,setRides]= useState([]);
-// const [rid,setRid] = useState('');
+  const confirmRide = (rid) => {
+    axios
+      .get(`http://localhost:8080/customer/confirmride/${rid}`)
+      .then((res) => {
+        console.log("Posting data", res);
+        sessionStorage.setItem("driver", JSON.stringify(res.data));
+        sessionStorage.setItem("rid", rid);
+        navigate("/customer/bookride");
+      })
+      .catch((error) => {
+        console.error("Error confirming ride:", error);
+        alert("Error confirming ride. Please try again.");
+      });
+  };
 
- 
-    
-//  useEffect(()=>{
-//     let rides = JSON.parse(sessionStorage.getItem('rides'))
-//     setRides(rides);
-   
-// },[])
-
-
-
-
-// //const rideId=rides.map((ride)=>(ride.rid));
-
-//     const confirmride = ()=>{
-//         axios.get(`http://localhost:8080/customer/confirmride/${ref.rid}`)
-        
-//         .then(res => {console.log('posting data' ,res);
-//         sessionStorage.setItem('driver',JSON.stringify(res.data));
-//         sessionStorage.setItem('rid',rid)
-      
-//         // .setRid({
-//         //     rides:rides.filter(ride => ride.rid === rid)
-//         // })
-  
-//         setTimeout(function showRides(){
-//               navigate('/customer/bookride')           
-//         },10)
-           
-//         });
-    
-    
-//       }
-
-//       const cur =(e)=>{
-//         let r = e.current.id;
-
-//       }
-     
-//     return(
-//         <div>
-//              <Table border={1} cellPadding={8} cellSpacing={0} className="tale1">
-//             <thead>
-//                 <tr>
-               
-//                 <th>Source</th>
-//                 <th>Destination</th>
-//                 <th>date</th>
-//                 <th>Time</th>
-//                 <th>charges</th>
-//                 <th>Rating</th>
-               
-//                 </tr>
-//             </thead>
-
-//             <tbody>
-//                     {
-//                         rides.map((ride)=>(
-//                             <tr key={ride.rid}>
-//                                 <td>{ride.source}</td>
-//                                 <td>{ride.dest}</td>
-//                                 <td>{ride.date}</td>
-//                                 <td>{ride.time}</td>
-//                                 <td>{ride.charges}</td>
-//                                 <td>{ride.rating}</td>
-                                                               
-//                                 <td>
-                                 
-//                                   <button ref={ref} onClick={()=>{cur();confirmride();}}> select {ride.rid} </button> 
-//                                 </td>
-                                
-                                         
-//                             </tr>
-//                         ))
-//                     }                     
-
-//                 </tbody>
-                
-
-
-//         </Table>
-//         </div>
-//     )
-// }
+  return (
+    <div>
+      {rides.length > 0 ? (
+        <Table border={1} cellPadding={8} cellSpacing={0} className="table1">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Charges</th>
+              <th>Rating</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rides.map((ride) => (
+              <tr key={ride.rid}>
+                <td>{ride.source}</td>
+                <td>{ride.dest}</td>
+                <td>{ride.date}</td>
+                <td>{ride.time}</td>
+                <td>{ride.charges}</td>
+                <td>{ride.rating}</td>
+                <td>
+                  <button onClick={() => confirmRide(ride.rid)}>
+                    Select {ride.rid}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p>No rides available</p>
+      )}
+    </div>
+  );
+}

@@ -1,53 +1,76 @@
-import { useNavigate } from "react-router-dom"
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-import { useState } from 'react';
-import { useEffect } from 'react';
+export default function Custcontroller() {
+  const [cust, setCust] = useState({});
+  const navigate = useNavigate();
 
-export default function Custcontroller(){
+  useEffect(() => {
+    let cust = JSON.parse(sessionStorage.getItem("user"));
+    setCust(cust);
+  }, []);
 
-    const [cust,setCust] =useState({});
+  const subject = "JoinMyRide: Attention";
+  const body = "Your account has been deactivated...!!!!!";
+  const email = cust?.email;
 
+  const confirm = () => {
+    if (window.confirm("Are you sure?")) {
+      deactivatate();
+    } else {
+      navigate("/customer/controller");
+    }
+  };
 
-    useEffect(()=>{
-        let cust = JSON.parse(sessionStorage.getItem('user'))
-        setCust(cust)
+  async function deactivatate() {
+    try {
+      const result = await axios.delete(
+        `http://localhost:8080/customer/deactivate/${cust?.cid}`
+      );
+      alert(result.data);
 
-    },[])
+      await axios.post("http://localhost:8080/mail/send-mail", {
+        email,
+        subject,
+        body,
+      });
 
-    const subject = "JoinMyRide:Attention";
-    const body = "Your account has been deactivated...!!!!!";
+      sessionStorage.clear();
+      navigate("/");
+    } catch (error) {
+      console.error("Error deactivating account:", error);
+    }
+  }
 
+  const logout = () => {
+    sessionStorage.clear();
+    navigate("/");
+  };
 
-    const email = cust.email;
-
-    const confirm =()=>{
-        if (window.confirm("Are you sure") == true) {
-          deactivatate()
-        } else {
-         navigate('/customer/controller')
-        }
-      }
-
-
-    async function deactivatate (){
-        const result =await axios.delete(`http://localhost:8080/customer/deactivate/${cust.cid}`).then(res=>alert(res.data));
-        sessionStorage.clear()
-          
-          await axios.post(`http://localhost:8080/mail/send-mail`,{
-           email,subject,body
-            
-          })
-      
-         }
-
-    let navigate = useNavigate();
-    return(
-        <div>
-        <button onClick={()=>{navigate("/")}}>Search Rides</button>
-        <button onClick={()=>{navigate("/customer/prevrides")}}>Previous rides</button>
-        <button onClick={()=>{navigate("/customer/update")}}>Update Profile</button>
-        <button onClick={()=>{navigate("/customer/deactive");confirm()}}>Deactivate</button>
-        </div>
-    )
+  return (
+    <div>
+      <button style={{ margin: "5px" }} onClick={() => navigate("/rides")}>
+        Search Rides
+      </button>
+      <button
+        style={{ margin: "5px" }}
+        onClick={() => navigate("/customer/prevrides")}
+      >
+        Previous Rides
+      </button>
+      <button
+        style={{ margin: "5px" }}
+        onClick={() => navigate("/customer/update")}
+      >
+        Update Profile
+      </button>
+      <button style={{ margin: "5px" }} onClick={confirm}>
+        Deactivate
+      </button>
+      <button style={{ margin: "5px" }} onClick={logout}>
+        Logout
+      </button>
+    </div>
+  );
 }
