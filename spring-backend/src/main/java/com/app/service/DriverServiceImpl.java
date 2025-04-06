@@ -75,34 +75,24 @@ public class DriverServiceImpl implements IDriverService {
 		Driver driver = driverRepo.getDriver(user.getUid());
 		return new DriverResponse(user.getUid(),user.getName(),user.getEmail(),user.getMobile(),user.getAdhar(),driver.getLicenseNo(),driver.getVehicleNo(),driver.getDid(),driver.isStatus());
 	}
-	
+
 	@Override
-    public boolean updateProfile(Integer did, UpdateProfileDto updateDto) {
-     try {
-        // Fetch the user and driver by their IDs
-        User user = userRepo.findById(updateDto.getUid()).orElseThrow(() -> new RuntimeException("User Not Found"));
-        Driver driver = driverRepo.findById(did).orElseThrow(() -> new RuntimeException("Driver Not Found"));
+	public boolean updateProfile(Integer did,UpdateProfileDto updateDto) {
+		boolean status = false;
+		User user = userRepo.findById(updateDto.getUid()).orElseThrow(()-> new RuntimeException("User Not Found"));
+		Driver driver = driverRepo.findById(did).orElseThrow(()-> new RuntimeException("Driver Not Found"));
+		user.setName(updateDto.getName());
+		user.setEmail(updateDto.getEmail());
+		user.setMobile(updateDto.getMobile());
+		user.setAdhar(updateDto.getAdhar());
+		driver.setLicenseNo(updateDto.getLicenseNo());
+		driver.setVehicleNo(updateDto.getVehicleNo());
+		userRepo.save(user);
+		driverRepo.save(driver);
+		status=true;
 
-        // Update user fields
-        if (updateDto.getName() != null) user.setName(updateDto.getName());
-        if (updateDto.getEmail() != null) user.setEmail(updateDto.getEmail());
-        if (updateDto.getMobile() != 0) user.setMobile(updateDto.getMobile());
-        if (updateDto.getAdhar() != 0) user.setAdhar(updateDto.getAdhar());
-
-        // Update driver fields
-        if (updateDto.getLicenseNo() != null) driver.setLicenseNo(updateDto.getLicenseNo());
-        if (updateDto.getVehicleNo() != null) driver.setVehicleNo(updateDto.getVehicleNo());
-
-        // Save the updated entities
-        userRepo.save(user);
-        driverRepo.save(driver);
-
-        return true;
-    } catch (Exception e) {
-        System.err.println("Error updating profile: " + e.getMessage());
-        return false;
-    }
-}
+		return status;
+	}
 
 	@Override
 	public String deleteRide(Integer rid) {		
