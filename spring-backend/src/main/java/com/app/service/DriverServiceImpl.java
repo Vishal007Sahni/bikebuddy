@@ -48,16 +48,19 @@ public class DriverServiceImpl implements IDriverService {
 		Driver driver = new Driver(user,userDto.getDriverDto().getVehicleNo(),userDto.getDriverDto().getLicenseNo());
 		driverRepo.save(driver);
 	}
-	
+
 	@Override
-	public boolean addRide(Integer did,Rides ride) {
-		Driver d = driverRepo.findById(did).orElseThrow(()->new RuntimeException("Driver not found"));
-		if(d.isStatus()) {
-			d.addRides(ride);
+	public boolean addRide(Integer did, Rides ride) {
+		try {
+			Driver driver = driverRepo.findById(did).orElseThrow(() -> new RuntimeException("Driver not found"));
+			driver.addRides(ride);
+			driverRepo.save(driver);
 			return true;
-		}
-		else
+		} catch (Exception e) {
+			// Log the exception if needed
+			System.err.println("Error adding ride: " + e.getMessage());
 			return false;
+		}
 	}
 	
 	@Override
@@ -74,22 +77,32 @@ public class DriverServiceImpl implements IDriverService {
 	}
 	
 	@Override
-	public boolean updateProfile(Integer did,UpdateProfileDto updateDto) {
-		boolean status = false;
-		User user = userRepo.findById(updateDto.getUid()).orElseThrow(()-> new RuntimeException("User Not Found"));
-		Driver driver = driverRepo.findById(did).orElseThrow(()-> new RuntimeException("Driver Not Found"));
-		user.setName(updateDto.getName());
-		user.setEmail(updateDto.getEmail());
-		user.setMobile(updateDto.getMobile());
-		user.setAdhar(updateDto.getAdhar());
-		driver.setLicenseNo(updateDto.getLicenseNo());
-		driver.setVehicleNo(updateDto.getVehicleNo());
-		userRepo.save(user);
-		driverRepo.save(driver);
-		status=true;
-		
-		return status;
-	}
+    public boolean updateProfile(Integer did, UpdateProfileDto updateDto) {
+     try {
+        // Fetch the user and driver by their IDs
+        User user = userRepo.findById(updateDto.getUid()).orElseThrow(() -> new RuntimeException("User Not Found"));
+        Driver driver = driverRepo.findById(did).orElseThrow(() -> new RuntimeException("Driver Not Found"));
+
+        // Update user fields
+        if (updateDto.getName() != null) user.setName(updateDto.getName());
+        if (updateDto.getEmail() != null) user.setEmail(updateDto.getEmail());
+        if (updateDto.getMobile() != 0) user.setMobile(updateDto.getMobile());
+        if (updateDto.getAdhar() != 0) user.setAdhar(updateDto.getAdhar());
+
+        // Update driver fields
+        if (updateDto.getLicenseNo() != null) driver.setLicenseNo(updateDto.getLicenseNo());
+        if (updateDto.getVehicleNo() != null) driver.setVehicleNo(updateDto.getVehicleNo());
+
+        // Save the updated entities
+        userRepo.save(user);
+        driverRepo.save(driver);
+
+        return true;
+    } catch (Exception e) {
+        System.err.println("Error updating profile: " + e.getMessage());
+        return false;
+    }
+}
 
 	@Override
 	public String deleteRide(Integer rid) {		
