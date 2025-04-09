@@ -1,7 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComp from "./components/NavbarComp";
-import { useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Team from "./Pages/Team";
@@ -36,6 +35,8 @@ import Extra from "./components/customer/Extra";
 import Previousride from "./components/customer/Previousride";
 import Custcontroller from "./components/customer/Cuscontroller";
 import Custprofile from "./components/customer/Custprofile";
+import CarbonFootprintCalculator from "./components/carbonFootprint";
+
 import Flexboxeg from "./components/Flexboxeg";
 
 function App() {
@@ -101,6 +102,11 @@ function App() {
             element={<Custcontroller />}
           ></Route>
           <Route path="/customer/update" element={<Custprofile />}></Route>
+
+          <Route
+            path="/carbon-footprint"
+            element={<CarbonFootprintCalculator />}
+          />
           {/* testing */}
         </Routes>
 

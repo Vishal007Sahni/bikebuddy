@@ -117,6 +117,14 @@ function DriverController() {
         Deactivate
       </button>
 
+      {/* adding CarbonFootprintCalculator */}
+      <button
+        onClick={() => navigate("/carbon-footprint")}
+        style={{ margin: "5px" }}
+      >
+        Carbon Footprint Calculator
+      </button>
+
       <button onClick={logout}>Logout</button>
     </div>
   );
