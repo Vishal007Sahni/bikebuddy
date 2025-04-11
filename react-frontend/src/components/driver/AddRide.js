@@ -1,38 +1,91 @@
 import axios from 'axios';
-import React, { useState } from 'react'
-import { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 
 function AddRide() {
 
     //getting state from local storage
 
-   
     const navigate = useNavigate();
 
     //states
-    const [driver,setDriver] = useState({});
-    const [source,setSource]=useState('');
-    const [dest,setDest] = useState('');
-    const [date,setDate]=useState('');
-    const [time,setTime] = useState('');
-    // const [type,setType]=useState('');
+    const [driver, setDriver] = useState({});
+    const [source, setSource] = useState('');
+    const [dest, setDest] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
     const type = "NORMAL";
-    const [charges,setCharges]=useState('');
-    
+    const [charges, setCharges] = useState('');
 
     //error checking
-    const [submitted,setSubmitted] = useState('');
-    const [error,setError] = useState('');
+    const [submitted, setSubmitted] = useState('');
+    const [error, setError] = useState('');
 
+    const sourceInputRef = useRef(null);
+    const destinationInputRef = useRef(null);
+    const sourceAutocompleteRef = useRef(null);
+    const destinationAutocompleteRef = useRef(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         let driver = JSON.parse(sessionStorage.getItem('driver-info'));
-        setDriver(driver)
-   },[])
+        setDriver(driver);
 
-    //handlers
+        // Load Google Maps JavaScript API script
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCAI_95oRUs7Pp8woFcyy3bkXpQ882Zt4Y&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        script.onload = initAutocomplete;
+        document.head.appendChild(script);
+
+        return () => {
+            // Cleanup script when component unmounts
+            document.head.removeChild(script);
+        };
+    }, []);
+
+    const initAutocomplete = () => {
+        if (!window.google) {
+            console.error("Google Maps API not loaded");
+            return;
+        }
+
+        // Initialize autocomplete for source and destination inputs
+        sourceAutocompleteRef.current = new window.google.maps.places.Autocomplete(
+            sourceInputRef.current,
+            { types: ['establishment', 'geocode'] } // Include broader types for places
+        );
+        destinationAutocompleteRef.current = new window.google.maps.places.Autocomplete(
+            destinationInputRef.current,
+            { types: ['establishment', 'geocode'] } // Include broader types for places
+        );
+
+        // Add listeners for place selection
+        sourceAutocompleteRef.current.addListener('place_changed', () => handlePlaceSelect('source'));
+        destinationAutocompleteRef.current.addListener('place_changed', () => handlePlaceSelect('destination'));
+    };
+
+    const handlePlaceSelect = (type) => {
+        const autocomplete = type === 'source' ? sourceAutocompleteRef.current : destinationAutocompleteRef.current;
+        const place = autocomplete.getPlace();
+
+        if (!place.geometry) {
+            console.error(`No geometry found for selected ${type}`);
+            return;
+        }
+
+        const location = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng(),
+        };
+
+        if (type === 'source') {
+            setSource(place.formatted_address); // Set source as formatted address
+        } else {
+            setDest(place.formatted_address); // Set destination as formatted address
+        }
+    };
+
     const handleSource= (e) => {
         setSource(e.target.value);
         setSubmitted(false);
@@ -139,10 +192,14 @@ function AddRide() {
                 <label className='label'>Source : </label>
                 </td>
                 <td>
-                <input onChange={handleSource}
-                className="input"
-                value={source}                
-                type="text"></input>
+                <input
+                    ref={sourceInputRef}
+                    onChange={handleSource}
+                    className="input"
+                    value={source}
+                    type="text"
+                    placeholder="Enter source location"
+                />
                 </td>
             </tr>
             <tr>
@@ -150,10 +207,14 @@ function AddRide() {
                 <label className='label'>Destination :</label>
                 </td>
                 <td>
-                <input onChange={handleDest}
-                className="input"
-                value={dest}
-                type="text"></input>
+                <input
+                    ref={destinationInputRef}
+                    onChange={handleDest}
+                    className="input"
+                    value={dest}
+                    type="text"
+                    placeholder="Enter destination location"
+                />
                 </td>
             </tr>
             <tr>
@@ -227,5 +288,6 @@ function AddRide() {
     </div>
   )
 }
+
 
 export default AddRide

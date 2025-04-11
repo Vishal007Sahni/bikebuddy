@@ -50,9 +50,9 @@ export default function Custcontroller() {
 
   return (
     <div>
-      <button style={{ margin: "5px" }} onClick={() => navigate("/rides")}>
-        Search Rides
-      </button>
+      <button style={{ margin: "5px" }} onClick={() => navigate("/search-rides")}>
+       Search Rides
+    </button>
       <button
         style={{ margin: "5px" }}
         onClick={() => navigate("/customer/prevrides")}

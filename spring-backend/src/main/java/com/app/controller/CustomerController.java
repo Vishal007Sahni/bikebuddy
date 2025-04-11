@@ -62,8 +62,18 @@ public class CustomerController {
 	
 	//find normal specific rides according to source and destination
 	@PostMapping("/findride/normal")
-	public ResponseEntity<?> getRides(@RequestBody FindRideDto findRide){
-		return new ResponseEntity<>(rideService.findNormalRides(findRide),HttpStatus.OK);
+	public ResponseEntity<?> getRides(@RequestBody FindRideDto findRide) {
+	    System.out.println("Received request to find normal rides with source: " + findRide.getSource() + " and destination: " + findRide.getDest());
+	    List<RideDto> rides = rideService.findNormalRides(findRide);
+
+	    if (rides.isEmpty()) {
+	        System.out.println("No rides found for the given source and destination.");
+	    } else {
+	        System.out.println("Rides found: " + rides.size());
+	        rides.forEach(ride -> System.out.println("Ride: " + ride)); // Log each ride
+	    }
+
+	    return new ResponseEntity<>(rides, HttpStatus.OK);
 	}
 	
 	//find subscription specific rides according to source and destination

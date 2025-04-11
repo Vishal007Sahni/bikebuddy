@@ -93,7 +93,8 @@ public class AdminController {
 	//authenticate driver
 	@PostMapping("/driverauth/{did}")
 	public ResponseEntity<String> authDriver(@PathVariable int did) {
-	
+
+
 		return new ResponseEntity<String>(adminService.authDriver(did),HttpStatus.OK);
 	}
 	
