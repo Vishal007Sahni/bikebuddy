@@ -71,6 +71,16 @@ export default function Custcontroller() {
       <button style={{ margin: "5px" }} onClick={logout}>
         Logout
       </button>
+
+      {/* addding footprint button */}
+      <button
+        onClick={() => {
+          navigate("/carbon-footprint");
+        }}
+        style={{ margin: "5px" }}
+      >
+        Carbon Footprint Calculator
+      </button>
     </div>
   );
 }

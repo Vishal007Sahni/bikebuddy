@@ -1,6 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarComp from "./components/NavbarComp";
+import { useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Team from "./Pages/Team";
@@ -36,54 +37,77 @@ import Previousride from "./components/customer/Previousride";
 import Custcontroller from "./components/customer/Cuscontroller";
 import Custprofile from "./components/customer/Custprofile";
 import Flexboxeg from "./components/Flexboxeg";
-import RideResults from "./components/customer/RideResults"; // Import RideResults
-import SearchRides from "./components/customer/SearchRides";
 
 function App() {
+  // let navigate = useNavigate();
   return (
     <Router>
       <div className="App">
         <NavbarComp />
-        
 
         <Routes>
-          <Route path="/" element={<CustDash />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/about-us" element={<About />} />
-          <Route path="/career" element={<Career />} />
-          <Route path="/contact-us" element={<Contact />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/driver/register" element={<DriverSignup />} />
-          <Route path="/customer/register" element={<CustSignup />} />
-          <Route path="/admin/customerlist" element={<CustomerList />} />
-          <Route path="/admin/driverlist" element={<DriverList />} />
-          <Route path="/admin/newdriverlist" element={<AuthDrivers />} />
-          <Route path="/admin/paymentstable" element={<PaymentsTable />} />
-          <Route path="/admin/controller" element={<AdminController />} />
-          <Route path="/driver/login" element={<DriverLogin />} />
-          <Route path="/driver/controller" element={<DriverController />} />
-          <Route path="/driver/addride" element={<AddRide />} />
-          <Route path="/driver/myrides" element={<PreviousRides />} />
-          <Route path="/driver/updateprofile" element={<Profile />} />
-          <Route path="/rides" element={<TestRides />} />
-          <Route path="/customer/bookride" element={<ConfirmRide />} />
-          <Route path="/customer/login" element={<CustLogin />} />
-          <Route path="/customer/signup" element={<CustSignup />} />
-          <Route path="/customer/payment" element={<BookRide />} />
-          <Route path="/customer/otp" element={<NewPayment />} />
-          <Route path="/status" element={<Done />} />
-          <Route path="/driver/subsride" element={<Subsride />} />
-          <Route path="/extra" element={<Extra />} />
-          <Route path="/customer/prevrides" element={<Previousride />} />
-          <Route path="/customer/controller" element={<Custcontroller />} />
-          <Route path="/customer/update" element={<Custprofile />} />
-          <Route path="/search-rides" element={<SearchRides />} />
-          <Route path="/rides/results" element={<RideResults />} /> {/* Add RideResults route */}
+          <Route path="/" element={<CustDash />}>
+            {" "}
+          </Route>
+
+          <Route path="/team" element={<Team />}>
+            {" "}
+          </Route>
+          <Route path="/about-us" element={<About />}>
+            {" "}
+          </Route>
+          <Route path="/career" element={<Career />}>
+            {" "}
+          </Route>
+          <Route path="/contact-us" element={<Contact />}>
+            {" "}
+          </Route>
+          <Route path="/admin/login" element={<AdminLogin />}>
+            {" "}
+          </Route>
+          <Route path="/driver/register" element={<DriverSignup />}></Route>
+          <Route path="/customer/register" element={<CustSignup />}></Route>
+
+          <Route path="/admin/customerlist" element={<CustomerList />}></Route>
+          <Route path="/admin/driverlist" element={<DriverList />}></Route>
+          <Route path="/admin/newdriverlist" element={<AuthDrivers />}></Route>
+          <Route
+            path="/admin/paymentstable"
+            element={<PaymentsTable />}
+          ></Route>
+          <Route path="/admin/controller" element={<AdminController />}></Route>
+          <Route path="/driver/login" element={<DriverLogin />}></Route>
+          <Route
+            path="/driver/controller"
+            element={<DriverController />}
+          ></Route>
+          <Route path="/driver/addride" element={<AddRide />}></Route>
+          <Route path="/driver/myrides" element={<PreviousRides />}></Route>
+          <Route path="/driver/updateprofile" element={<Profile />}></Route>
+          <Route path="/rides" element={<TestRides></TestRides>}></Route>
+          <Route path="/customer/bookride" element={<ConfirmRide />}></Route>
+          <Route path="/customer/login" element={<CustLogin />}></Route>
+          <Route path="/customer/signup" element={<CustSignup />}></Route>
+          {/* <Route path ="/rides" element ={< Protected cmp ={ TestRides}/>}></Route> */}
+          <Route path="/rides" element={<TestRides></TestRides>}></Route>
+          <Route path="/customer/payment" element={<BookRide />}></Route>
+          <Route path="/customer/otp" element={<NewPayment />}></Route>
+          <Route path="/status" element={<Done />}></Route>
+          <Route path="/driver/subsride" element={<Subsride />}></Route>
+          <Route path="/extra" element={<Extra />}></Route>
+          <Route path="/customer/prevrides" element={<Previousride />}></Route>
+          <Route
+            path="/customer/controller"
+            element={<Custcontroller />}
+          ></Route>
+          <Route path="/customer/update" element={<Custprofile />}></Route>
+          {/* testing */}
         </Routes>
 
         <Footer />
       </div>
     </Router>
+    // <Flexboxeg />
   );
 }
 
