@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import './SearchRides.css'; // Import the CSS file
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import "./SearchRides.css"; // Import the CSS file
 
 const LocationSearchBar = ({ onPlaceSelected }) => {
-  const [sourceQuery, setSourceQuery] = useState('');
-  const [destinationQuery, setDestinationQuery] = useState('');
+  const [sourceQuery, setSourceQuery] = useState("");
+  const [destinationQuery, setDestinationQuery] = useState("");
   const [sourceLocation, setSourceLocation] = useState(null);
   const [destinationLocation, setDestinationLocation] = useState(null);
   const [rides, setRides] = useState([]);
   const [distance, setDistance] = useState(null);
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState("");
   const mapRef = useRef(null);
   const sourceAutocompleteRef = useRef(null);
   const destinationAutocompleteRef = useRef(null);
@@ -23,7 +23,7 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
 
   useEffect(() => {
     // Load Google Maps JavaScript API script
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCAI_95oRUs7Pp8woFcyy3bkXpQ882Zt4Y&libraries=places`;
     script.async = true;
     script.defer = true;
@@ -65,32 +65,40 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
     // Initialize draggable markers
     sourceMarkerRef.current = new window.google.maps.Marker({
       map: mapInstanceRef.current,
-      title: 'Source',
+      title: "Source",
       draggable: true,
     });
     destinationMarkerRef.current = new window.google.maps.Marker({
       map: mapInstanceRef.current,
-      title: 'Destination',
+      title: "Destination",
       draggable: true,
     });
 
     // Add drag event listeners to markers
-    sourceMarkerRef.current.addListener('dragend', () => handleMarkerDrag('source'));
-    destinationMarkerRef.current.addListener('dragend', () => handleMarkerDrag('destination'));
+    sourceMarkerRef.current.addListener("dragend", () =>
+      handleMarkerDrag("source")
+    );
+    destinationMarkerRef.current.addListener("dragend", () =>
+      handleMarkerDrag("destination")
+    );
 
     // Create autocomplete objects for source and destination
     sourceAutocompleteRef.current = new window.google.maps.places.Autocomplete(
       sourceInputRef.current,
-      { types: ['establishment'] }
+      { types: ["establishment"] }
     );
-    destinationAutocompleteRef.current = new window.google.maps.places.Autocomplete(
-      destinationInputRef.current,
-      { types: ['establishment'] }
-    );
+    destinationAutocompleteRef.current =
+      new window.google.maps.places.Autocomplete(destinationInputRef.current, {
+        types: ["establishment"],
+      });
 
     // Add listeners for place selection
-    sourceAutocompleteRef.current.addListener('place_changed', () => handlePlaceSelect('source'));
-    destinationAutocompleteRef.current.addListener('place_changed', () => handlePlaceSelect('destination'));
+    sourceAutocompleteRef.current.addListener("place_changed", () =>
+      handlePlaceSelect("source")
+    );
+    destinationAutocompleteRef.current.addListener("place_changed", () =>
+      handlePlaceSelect("destination")
+    );
 
     // Initialize Directions Service and Renderer
     directionsServiceRef.current = new window.google.maps.DirectionsService();
@@ -100,7 +108,10 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
   };
 
   const handlePlaceSelect = (type) => {
-    const autocomplete = type === 'source' ? sourceAutocompleteRef.current : destinationAutocompleteRef.current;
+    const autocomplete =
+      type === "source"
+        ? sourceAutocompleteRef.current
+        : destinationAutocompleteRef.current;
     const place = autocomplete.getPlace();
 
     if (!place.geometry) {
@@ -113,7 +124,7 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
       lng: place.geometry.location.lng(),
     };
 
-    if (type === 'source') {
+    if (type === "source") {
       setSourceLocation(location);
       sourceMarkerRef.current.setPosition(location);
       mapInstanceRef.current.setCenter(location);
@@ -140,7 +151,10 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
   };
 
   const handleMarkerDrag = (type) => {
-    const marker = type === 'source' ? sourceMarkerRef.current : destinationMarkerRef.current;
+    const marker =
+      type === "source"
+        ? sourceMarkerRef.current
+        : destinationMarkerRef.current;
     const position = marker.getPosition();
 
     const location = {
@@ -148,7 +162,7 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
       lng: position.lng(),
     };
 
-    if (type === 'source') {
+    if (type === "source") {
       setSourceLocation(location);
       setSourceQuery(`Lat: ${location.lat}, Lng: ${location.lng}`);
     } else {
@@ -171,11 +185,11 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
     const request = {
       origin: sourceLocation,
       destination: destinationLocation,
-      travelMode: 'DRIVING', // You can change this to 'WALKING', 'BICYCLING', or 'TRANSIT'
+      travelMode: "DRIVING", // You can change this to 'WALKING', 'BICYCLING', or 'TRANSIT'
     };
 
     directionsServiceRef.current.route(request, (result, status) => {
-      if (status === 'OK') {
+      if (status === "OK") {
         directionsRendererRef.current.setDirections(result);
       } else {
         console.error("Error calculating directions:", status);
@@ -194,12 +208,12 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
       {
         origins: [sourceLocation],
         destinations: [destinationLocation],
-        travelMode: 'DRIVING',
+        travelMode: "DRIVING",
       },
       (response, status) => {
-        if (status === 'OK') {
+        if (status === "OK") {
           const result = response.rows[0].elements[0];
-          if (result.status === 'OK') {
+          if (result.status === "OK") {
             setDistance(result.distance.text);
           } else {
             console.error("Error calculating distance:", result.status);
@@ -224,11 +238,14 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
     calculateDistance(); // Calculate distance before searching rides
 
     try {
-      const response = await axios.post('http://localhost:8080/customer/findride/normal', {
-        source: sourceQuery, // Send source as a string
-        dest: destinationQuery, // Send destination as a string
-        date: date,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/customer/findride/normal",
+        {
+          source: sourceQuery, // Send source as a string
+          dest: destinationQuery, // Send destination as a string
+          date: date,
+        }
+      );
       console.log("Rides fetched successfully:", response.data); // Log fetched rides
       setRides(response.data);
 
@@ -274,7 +291,9 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
             className="location-search-input"
           />
         </div>
-        <button onClick={searchRides} className="search-button">Search Rides</button>
+        <button onClick={searchRides} className="search-button">
+          Search Rides
+        </button>
       </div>
       {distance && <p className="distance-info">Distance: {distance}</p>}
       <div className="rides-list">
@@ -282,7 +301,8 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
           <ul>
             {rides.map((ride, index) => (
               <li key={index}>
-                Ride from {ride.source} to {ride.destination}, Price: {ride.price}
+                Ride from {ride.source} to {ride.destination}, Price:{" "}
+                {ride.price}
               </li>
             ))}
           </ul>
