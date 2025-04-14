@@ -7,12 +7,12 @@ export default function DriverSignup() {
   // States for registration
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
-
   const [email, setEmail] = useState("");
   const [pwd, setPassword] = useState("");
   const [adhar, setAadhar] = useState("");
   const [vehicleNo, setVehicle] = useState("");
   const [licenseNo, setLicense] = useState("");
+  const [collegeUniqueId, setCollegeUniqueId] = useState(""); // New state
 
   const driverDto = { vehicleNo: vehicleNo, licenseNo: licenseNo };
   const role = "DRIVER";
@@ -57,6 +57,11 @@ export default function DriverSignup() {
     setSubmitted(false);
   };
 
+  const handleCollegeUniqueId = (e) => {
+    setCollegeUniqueId(e.target.value);
+    setSubmitted(false);
+  };
+
   // Handling the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,7 +73,8 @@ export default function DriverSignup() {
       adhar === "" ||
       pwd === "" ||
       vehicleNo === "" ||
-      licenseNo === ""
+      licenseNo === "" ||
+      collegeUniqueId === ""
     ) {
       setError(true);
     } else {
@@ -81,9 +87,20 @@ export default function DriverSignup() {
           pwd,
           role,
           driverDto,
+          collegeUniqueId, // Include the new field
         })
-        .then((res) => alert(res.data))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          if (res.status === 200) {
+            alert(res.data); // Success message
+          }
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 400) {
+            alert(err.response.data); // Alert for invalid unique ID or other errors
+          } else {
+            console.log(err);
+          }
+        });
 
       setSubmitted(true);
       setError(false);
@@ -212,6 +229,18 @@ export default function DriverSignup() {
                   value={licenseNo}
                   type="text"
                   placeholder="License Number"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <input
+                  onChange={handleCollegeUniqueId}
+                  className="input"
+                  value={collegeUniqueId}
+                  type="text"
+                  placeholder="College Unique ID"
                 />
               </td>
             </tr>
