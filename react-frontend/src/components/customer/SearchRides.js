@@ -88,12 +88,12 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
     // Create autocomplete objects for source and destination
     sourceAutocompleteRef.current = new window.google.maps.places.Autocomplete(
       sourceInputRef.current,
-      { types: ["establishment"] }
+      { types: ["establishment", "geocode"] } // Include broader types for places
     );
-    destinationAutocompleteRef.current =
-      new window.google.maps.places.Autocomplete(destinationInputRef.current, {
-        types: ["establishment"],
-      });
+    destinationAutocompleteRef.current = new window.google.maps.places.Autocomplete(
+      destinationInputRef.current,
+      { types: ["establishment", "geocode"] } // Include broader types for places
+    );
 
     // Add listeners for place selection
     sourceAutocompleteRef.current.addListener("place_changed", () =>
@@ -127,14 +127,16 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
       lng: place.geometry.location.lng(),
     };
 
+    const formattedAddress = place.formatted_address; // Get the full address
+
     if (type === "source") {
       setSourceLocation(location);
-      setSourceQuery(place.formatted_address); // Use formatted address
+      setSourceQuery(formattedAddress); // Use the full address
       sourceMarkerRef.current.setPosition(location);
       mapInstanceRef.current.setCenter(location);
     } else {
       setDestinationLocation(location);
-      setDestinationQuery(place.formatted_address); // Use formatted address
+      setDestinationQuery(formattedAddress); // Use the full address
       destinationMarkerRef.current.setPosition(location);
       mapInstanceRef.current.setCenter(location);
     }
@@ -143,7 +145,7 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
     onPlaceSelected({
       type,
       name: place.name,
-      address: place.formatted_address,
+      address: formattedAddress, // Include the full address
       location,
       placeId: place.place_id,
       placeDetails: place,
