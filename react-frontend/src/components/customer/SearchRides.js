@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./SearchRides.css"; // Import the CSS file
 
 const LocationSearchBar = ({ onPlaceSelected }) => {
@@ -20,6 +21,8 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
   const destinationMarkerRef = useRef(null);
   const directionsRendererRef = useRef(null);
   const directionsServiceRef = useRef(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Load Google Maps JavaScript API script
@@ -126,10 +129,12 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
 
     if (type === "source") {
       setSourceLocation(location);
+      setSourceQuery(place.formatted_address); // Use formatted address
       sourceMarkerRef.current.setPosition(location);
       mapInstanceRef.current.setCenter(location);
     } else {
       setDestinationLocation(location);
+      setDestinationQuery(place.formatted_address); // Use formatted address
       destinationMarkerRef.current.setPosition(location);
       mapInstanceRef.current.setCenter(location);
     }
@@ -164,10 +169,8 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
 
     if (type === "source") {
       setSourceLocation(location);
-      setSourceQuery(`Lat: ${location.lat}, Lng: ${location.lng}`);
     } else {
       setDestinationLocation(location);
-      setDestinationQuery(`Lat: ${location.lat}, Lng: ${location.lng}`);
     }
 
     // If both source and destination are selected, calculate directions
@@ -228,34 +231,42 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
   };
 
   const searchRides = async () => {
-    console.log("Search Rides button clicked"); // Log button click
-
     if (!sourceLocation || !destinationLocation || !date) {
       alert("Please select source, destination, and date.");
       return;
     }
 
-    calculateDistance(); // Calculate distance before searching rides
-
     try {
       const response = await axios.post(
         "http://localhost:8080/customer/findride/normal",
         {
-          source: sourceQuery, // Send source as a string
-          dest: destinationQuery, // Send destination as a string
+          source: sourceQuery,
+          dest: destinationQuery,
           date: date,
         }
       );
-      console.log("Rides fetched successfully:", response.data); // Log fetched rides
-      setRides(response.data);
 
-      if (response.data.length === 0) {
-        console.log("No rides available for the selected criteria."); // Log no rides
-      }
+      // Add driver details from sessionStorage to each ride
+      const driverInfo = JSON.parse(sessionStorage.getItem("driver-info"));
+      const ridesWithDriverDetails = response.data.map((ride) => ({
+        ...ride,
+        driverName: driverInfo.name,
+        driverPhone: driverInfo.mobile,
+      }));
+
+      setRides(ridesWithDriverDetails);
     } catch (error) {
       console.error("Error fetching rides:", error);
       alert("Failed to fetch rides. Please try again.");
     }
+  };
+
+  const confirmRide = (ride) => {
+    console.log("Ride data being passed to sessionStorage:", ride); // Log ride data
+    sessionStorage.setItem("ride", JSON.stringify(ride));
+    setTimeout(() => {
+      navigate("/customer/confirm"); // Delay navigation by 5 seconds
+    }, 5000);
   };
 
   return (
@@ -298,14 +309,39 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
       {distance && <p className="distance-info">Distance: {distance}</p>}
       <div className="rides-list">
         {rides.length > 0 ? (
-          <ul>
-            {rides.map((ride, index) => (
-              <li key={index}>
-                Ride from {ride.source} to {ride.destination}, Price:{" "}
-                {ride.price}
-              </li>
-            ))}
-          </ul>
+          <table className="rides-table">
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Charges</th>
+                <th>Time</th>
+                <th>Driver Name</th> {/* Add column for driver's name */}
+                <th>Driver Phone</th> {/* Add column for driver's phone */}
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rides.map((ride, index) => (
+                <tr key={index}>
+                  <td>{ride.source}</td>
+                  <td>{ride.dest}</td>
+                  <td>{ride.charges}</td>
+                  <td>{ride.time}</td>
+                  <td>{ride.driverName}</td> {/* Display driver's name */}
+                  <td>{ride.driverPhone}</td> {/* Display driver's phone */}
+                  <td>
+                    <button
+                      className="confirm-button"
+                      onClick={() => confirmRide(ride)}
+                    >
+                      Confirm Ride
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
           <p>No rides found.</p>
         )}

@@ -5,5 +5,5 @@ export default function DriverLogin() {
     <div>
         <h1>Inside Driver Login</h1>
     </div>
-  )
+  ) 
 }

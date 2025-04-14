@@ -76,6 +76,8 @@
   margin-top: 20px;
   font-size: 18px;
   font-weight: bold;
+  color: #007bff; /* Add color to distance info */
+  animation: slideIn 0.5s ease-in-out; /* Add slide-in animation */
 }
 
 .rides-list {
@@ -95,4 +97,104 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rides-table {
+  width: 70%; /* Adjust table width to 70% of the window */
+  margin: 20px auto;
+  border-collapse: separate; /* Use separate borders for rounded corners */
+  border-spacing: 0; /* Remove spacing between cells */
+  text-align: left;
+  border-radius: 12px; /* Add rounded corners to the table */
+  overflow: hidden; /* Ensure rounded corners are visible */
+  animation: fadeIn 0.5s ease-in-out; /* Add fade-in animation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+.rides-table th,
+.rides-table td {
+  padding: 10px; /* Reduce padding to decrease row height */
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover and animations */
+}
+
+.rides-table th:hover,
+.rides-table td:hover {
+  background-color: #e0f7fa; /* Highlight column on hover */
+  cursor: pointer; /* Change cursor to pointer for better interactivity */
+}
+
+.rides-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.rides-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternate row colors */
+}
+
+.rides-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.rides-table tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+  transform: scale(1.02); /* Slightly enlarge row on hover */
+}
+
+.rides-table tbody tr {
+  animation: slideInFromBottom 0.5s ease-in-out; /* Add slide-in animation for rows */
+}
+
+.confirm-button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Add hover and click animations */
+}
+
+.confirm-button:hover {
+  background-color: #218838;
+  transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+.confirm-button:active {
+  transform: scale(0.95); /* Slightly shrink button on click */
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

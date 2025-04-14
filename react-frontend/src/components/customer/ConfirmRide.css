@@ -1,0 +1,70 @@
+.confirm-ride-container {
+  margin: 50px auto;
+  padding: 20px;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-in-out; /* Fade-in animation */
+  text-align: center;
+   /* Add the provided image */
+  background-size: cover;
+  background-position: center;
+}
+
+h1 {
+  font-size: 24px;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+.cardtable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.cardtable .data {
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  text-align: left;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Add smooth hover effect */
+}
+
+.cardtable .data:hover {
+  background-color: #f1f1f1; /* Highlight cell on hover */
+  transform: scale(1.02); /* Slightly enlarge cell on hover */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

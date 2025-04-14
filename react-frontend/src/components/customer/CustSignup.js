@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import axios from 'axios'   
 import './styles/login.css';
@@ -16,6 +14,7 @@ export default function CustSignup() {
   const [email, setEmail] = useState('');
   const [pwd, setPassword] = useState('');
   const [adhar, setAadhar] = useState();
+  const [collegeUniqueId, setCollegeUniqueId] = useState(""); // New state
   const role = "CUSTOMER";
 
   // States for checking the errors
@@ -49,25 +48,43 @@ export default function CustSignup() {
     setSubmitted(false);
   }
 
+  const handleCollegeUniqueId = (e) => {
+    setCollegeUniqueId(e.target.value);
+    setSubmitted(false);
+  };
 
  
   // Handling the form submission
 const handleSubmit = (e) => {
     e.preventDefault();
-    if (name === '' || mobile===''||  email === '' || pwd === '' || adhar ==='') {
+    if (name === "" || mobile === "" || email === "" || pwd === "" || adhar === "" || collegeUniqueId === "") {
       setError(true);
     } else {
-        axios.post('http://localhost:8080/user/register/',{
-            name,
-            email,
-            mobile,
-            adhar,
-            pwd,            
-            role
-        }).then(res=>alert(res.data)).catch(err=> console.log(err))
+      axios
+        .post("http://localhost:8080/user/register/", {
+          name,
+          email,
+          mobile,
+          adhar,
+          pwd,
+          role,
+          collegeUniqueId, // Include the new field
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            alert(res.data); // Success message
+          }
+        })
+        .catch((err) => {
+          if (err.response && err.response.status === 400) {
+            alert(err.response.data); // Alert for invalid unique ID or other errors
+          } else {
+            console.log(err);
+          }
+        });
+
       setSubmitted(true);
       setError(false);
-      
     }
   };
 
@@ -156,6 +173,18 @@ const handleSubmit = (e) => {
           value={adhar} type="number" placeholder='Aadhar Number'/> 
           </td>
         </tr>
+
+        <tr>
+    <td>
+        <input
+            onChange={handleCollegeUniqueId}
+            className="input"
+            value={collegeUniqueId}
+            type="text"
+            placeholder="College Unique ID"
+        />
+    </td>
+</tr>
 
        
         <br/>

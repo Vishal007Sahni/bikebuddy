@@ -79,8 +79,8 @@ function App() {
           <Route path="/customer/controller" element={<Custcontroller />} />
           <Route path="/customer/update" element={<Custprofile />} />
           <Route path="/search-rides" element={<SearchRides />} />
-          {/* Add RideResults route */}
-
+          <Route path="/customer/confirm" element={<ConfirmRide />} />
+          <Route path="/customer/book" element={<BookRide />} />
           <Route path="/carbon-footprint" element={<CarbonCalculator />} />
         </Routes>
 

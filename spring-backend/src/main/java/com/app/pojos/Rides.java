@@ -35,9 +35,9 @@ public class Rides {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer rid;
-	@Column(length=40)
+	@Column(length=255)
 	private String source;
-	@Column(length=40)
+	@Column(length=255)
 	private String dest;
 	private LocalDate date;
 	private LocalTime time;

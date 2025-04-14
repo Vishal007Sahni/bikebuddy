@@ -22,6 +22,7 @@ import com.app.pojos.User;
 import com.app.repo.ICustomerRepo;
 import com.app.repo.IDriverRepo;
 import com.app.repo.IUserRepo;
+import com.app.repo.ICollegeIdRepo;
 
 @Service
 @Transactional
@@ -39,9 +40,17 @@ public class UserServiceImpl implements IUserService {
 	
 	@Autowired
 	private ICustomerRepo custRepo;
+
+	@Autowired
+	private ICollegeIdRepo collegeIdRepo;
 	
 	@Override
 	public Object register(UserDto u) {
+	    // Check if the college unique ID exists
+	    if (!collegeIdRepo.existsByUniqueId(u.getCollegeUniqueId())) {
+	        return "Invalid College Unique ID";
+	    }
+
 		User user = new User(u.getName(),u.getEmail(),u.getMobile(),u.getAdhar(),u.getPwd(),u.getRole());
 		String email = userRepo.findByEmail(u.getEmail(),u.getRole().toString());
 		if(user.getEmail().equals(email))

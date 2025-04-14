@@ -38,24 +38,30 @@ public class UserController {
 	private ICustomerService custService;
 
 	@PostMapping("/register")
-	public ResponseEntity<?> registerUser(@RequestBody UserDto userDto){
-		Object object = userService.register(userDto);
-		if(!object.equals("User Already Exists")) {
-			User user = (User)object;
-			System.out.println(user);
-			System.out.println(userDto);
-			if(user.getRole().toString().equals("DRIVER")) {
-				System.out.println("inside driver regitser controller");
-				driverService.register(userDto,user);
-				return new ResponseEntity<>("Driver Registered Successfully",HttpStatus.OK);
-			}
-			else if(user.getRole().toString().equals("CUSTOMER")) {
-				custService.register(user);
-				return new ResponseEntity<>("Customer Registered Successfully",HttpStatus.OK);
-			}
-		}
+	public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
+	    System.out.println("DEBUG: Received registration request for " + userDto.getName());
+	    Object result = userService.register(userDto);
 
-		return new ResponseEntity<>("User Already Exists!!! ",HttpStatus.OK);
+	    // Check if the result is a String (error message)
+	    if (result instanceof String) {
+	        System.out.println("DEBUG: Registration failed with message: " + result);
+	        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+	    }
+
+	    // If the result is a User object, proceed with role-specific registration
+	    User user = (User) result;
+	    if (user.getRole().toString().equals("DRIVER")) {
+	        System.out.println("DEBUG: Registering driver " + user.getName());
+	        driverService.register(userDto, user);
+	        return new ResponseEntity<>("Driver Registered Successfully", HttpStatus.OK);
+	    } else if (user.getRole().toString().equals("CUSTOMER")) {
+	        System.out.println("DEBUG: Registering customer " + user.getName());
+	        custService.register(user);
+	        return new ResponseEntity<>("Customer Registered Successfully", HttpStatus.OK);
+	    }
+
+	    System.out.println("DEBUG: Unexpected error occurred during registration.");
+	    return new ResponseEntity<>("Unexpected Error Occurred", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PostMapping("/{uid}/profile-image")

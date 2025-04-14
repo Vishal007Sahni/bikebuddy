@@ -16,6 +16,7 @@ function AddRide() {
     const [time, setTime] = useState('');
     const type = "NORMAL";
     const [charges, setCharges] = useState('');
+    const [distance, setDistance] = useState(null); // State to store calculated distance
 
     //error checking
     const [submitted, setSubmitted] = useState('');
@@ -74,15 +75,10 @@ function AddRide() {
             return;
         }
 
-        const location = {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng(),
-        };
-
         if (type === 'source') {
-            setSource(place.formatted_address); // Set source as formatted address
+            setSource(place.formatted_address); // Use formatted address
         } else {
-            setDest(place.formatted_address); // Set destination as formatted address
+            setDest(place.formatted_address); // Use formatted address
         }
     };
 
@@ -106,35 +102,92 @@ function AddRide() {
         setSubmitted(false);
     }
 
-    // const handleType= (e) => {
-    //     setType(e.target.value);
-    //     setSubmitted(false);
-    // }
-
     const handleCharge= (e) => {
         setCharges(e.target.value);
         setSubmitted(false);
     }
 
+    const calculateDistance = () => {
+        if (!source || !dest) {
+            alert("Please select both source and destination locations.");
+            return;
+        }
+
+        const service = new window.google.maps.DistanceMatrixService();
+        service.getDistanceMatrix(
+            {
+                origins: [source],
+                destinations: [dest],
+                travelMode: "DRIVING",
+            },
+            (response, status) => {
+                if (status === "OK") {
+                    const result = response.rows[0].elements[0];
+                    if (result.status === "OK") {
+                        const distanceInKm = result.distance.value / 1000; // Convert meters to kilometers
+                        setDistance(distanceInKm);
+                        validateCharges(distanceInKm); // Validate charges based on distance
+                    } else {
+                        console.error("Error calculating distance:", result.status);
+                        setDistance(null);
+                    }
+                } else {
+                    console.error("Distance Matrix API error:", status);
+                    setDistance(null);
+                }
+            }
+        );
+    };
+
+    const validateCharges = (distanceInKm) => {
+        const maxAllowedCharges = distanceInKm * 9; // Maximum allowed charges at ₹9 per km
+        if (charges > maxAllowedCharges) {
+            alert(
+                `Charges exceed the maximum allowed limit of ₹${maxAllowedCharges.toFixed(
+                    2
+                )} for a distance of ${distanceInKm.toFixed(2)} km. Please adjust the charges.`
+            );
+        }
+    };
+
     //form submission
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(source === '' || dest === '' || date === '' || type === '' || charges === ''){
+        if (!source || !dest || !date || !type || !charges) {
             setError(true);
-        }else{
-            axios.post(`http://localhost:8080/driver/addride/${driver.did}`,{
+            return;
+        }
+
+        if (distance === null) {
+            alert("Please calculate the distance before submitting.");
+            return;
+        }
+
+        const maxAllowedCharges = distance * 9; // Maximum allowed charges at ₹9 per km
+        if (charges > maxAllowedCharges) {
+            alert(
+                `Charges exceed the maximum allowed limit of ₹${maxAllowedCharges.toFixed(
+                    2
+                )} for a distance of ${distance.toFixed(2)} km. Please adjust the charges.`
+            );
+            return;
+        }
+
+        axios
+            .post(`http://localhost:8080/driver/addride/${driver.did}`, {
                 source,
                 dest,
                 date,
                 time,
                 charges,
-                type
-            }).then(res=>alert(res.data)).catch(err=>console.log(err));
+                type,
+            })
+            .then((res) => alert(res.data))
+            .catch((err) => console.log(err));
 
-            setSubmitted(true);
-            setError(false);
-        }
+        setSubmitted(true);
+        setError(false);
     };
 
     //sucess message
@@ -239,17 +292,21 @@ function AddRide() {
                  type="time" placeholder='time'></input>
                 </td>
             </tr>
-            {/* <tr>
+            <tr>
                 <td>
-                <label className='label'>Type :</label>
+                <label className='label'>Distance:</label>
                 </td>
                 <td>
-                <input onChange={handleType}
-                className="input"
-                value={type}
-                 type="text"></input>
+                <button type="button" onClick={calculateDistance}>
+                    Calculate Distance
+                </button>
+                {distance && (
+                    <span style={{ marginLeft: "10px" }}>
+                    {distance.toFixed(2)} km
+                    </span>
+                )}
                 </td>
-            </tr> */}
+            </tr>
             <tr>
                 <td>
                 <label className='label'>Charges :</label>
