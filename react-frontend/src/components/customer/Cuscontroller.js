@@ -7,8 +7,10 @@ export default function Custcontroller() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let cust = JSON.parse(sessionStorage.getItem("user"));
-    setCust(cust);
+    const cust = JSON.parse(sessionStorage.getItem("user")); // Fetch customer details from sessionStorage
+    if (cust) {
+      setCust(cust);
+    }
   }, []);
 
   const subject = "JoinMyRide: Attention";
@@ -61,7 +63,7 @@ export default function Custcontroller() {
       </button>
       <button
         style={{ margin: "5px" }}
-        onClick={() => navigate("/customer/update")}
+        onClick={() => navigate("/customer/update-profile")} // Updated route
       >
         Update Profile
       </button>

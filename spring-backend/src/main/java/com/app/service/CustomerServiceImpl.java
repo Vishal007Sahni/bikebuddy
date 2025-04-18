@@ -61,15 +61,23 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Override
 	public boolean updateProfile(Integer cid, UpdateProfileDto updateDto) {
+		System.out.println("Updating profile for CID: " + cid); // Log CID
+		System.out.println("Update DTO: " + updateDto); // Log update data
 		boolean status = false;
-		Customer customer = custRepo.findById(cid).orElseThrow(()->new RuntimeException("Customer Not Found")); 
-		User user = userRepo.findById(updateDto.getUid()).orElseThrow(()->new RuntimeException("Customer Not Found"));
-		user.setEmail(updateDto.getEmail());
-		user.setName(updateDto.getName());
-		user.setMobile(updateDto.getMobile());
-		user.setAdhar(updateDto.getAdhar());
-		userRepo.save(user);
-		status=true;
+		try {
+			Customer customer = custRepo.findById(cid).orElseThrow(() -> new RuntimeException("Customer Not Found"));
+			User user = userRepo.findById(updateDto.getUid()).orElseThrow(() -> new RuntimeException("User Not Found"));
+			System.out.println("Found Customer and User for update."); // Log successful fetch
+			user.setEmail(updateDto.getEmail());
+			user.setName(updateDto.getName());
+			user.setMobile(updateDto.getMobile());
+			user.setAdhar(updateDto.getAdhar());
+			userRepo.save(user);
+			status = true;
+			System.out.println("Profile updated successfully in the database."); // Log success
+		} catch (Exception e) {
+			System.err.println("Error during profile update: " + e.getMessage()); // Log errors
+		}
 		return status;
 	}
 
