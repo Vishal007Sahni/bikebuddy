@@ -125,7 +125,15 @@ function DriverController() {
         Carbon Footprint Calculator
       </button>
 
-      <button onClick={logout}>Logout</button>
+      <button
+        onClick={() => {
+          if (window.confirm("Are you sure you want to logout?")) {
+            logout();
+          }
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 }

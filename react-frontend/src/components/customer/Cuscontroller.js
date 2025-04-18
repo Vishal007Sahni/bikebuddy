@@ -44,17 +44,22 @@ export default function Custcontroller() {
       console.error("Error deactivating account:", error);
     }
   }
-
+  // logut updATED
   const logout = () => {
-    sessionStorage.clear();
-    navigate("/");
+    if (window.confirm("Are you sure you want to logout?")) {
+      sessionStorage.clear();
+      navigate("/");
+    }
   };
 
   return (
     <div>
-      <button style={{ margin: "5px" }} onClick={() => navigate("/search-rides")}>
-       Search Rides
-    </button>
+      <button
+        style={{ margin: "5px" }}
+        onClick={() => navigate("/search-rides")}
+      >
+        Search Rides
+      </button>
       <button
         style={{ margin: "5px" }}
         onClick={() => navigate("/customer/prevrides")}
@@ -63,18 +68,13 @@ export default function Custcontroller() {
       </button>
       <button
         style={{ margin: "5px" }}
-        onClick={() => navigate("/customer/update-profile")} // Updated route
+        onClick={() => navigate("/customer/update-profile")}
       >
         Update Profile
       </button>
       <button style={{ margin: "5px" }} onClick={confirm}>
         Deactivate
       </button>
-      <button style={{ margin: "5px" }} onClick={logout}>
-        Logout
-      </button>
-
-      {/* addding footprint button */}
       <button
         onClick={() => {
           navigate("/carbon-footprint");
@@ -83,6 +83,11 @@ export default function Custcontroller() {
       >
         Carbon Footprint Calculator
       </button>
+      <button style={{ margin: "5px" }} onClick={logout}>
+        Logout
+      </button>
+
+      {/* addding footprint button */}
     </div>
   );
 }

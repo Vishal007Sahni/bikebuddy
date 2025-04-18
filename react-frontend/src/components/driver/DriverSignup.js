@@ -4,24 +4,26 @@ import { useNavigate } from "react-router-dom";
 
 export default function DriverSignup() {
   const navigate = useNavigate();
-  // States for registration
+
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [pwd, setPassword] = useState("");
-  const [adhar, setAadhar] = useState("");
   const [vehicleNo, setVehicle] = useState("");
-  const [licenseNo, setLicense] = useState("");
-  const [collegeUniqueId, setCollegeUniqueId] = useState(""); // New state
+  const [vehicleAge, setVehicleAge] = useState("");
+  const [mileage, setMileage] = useState("");
+  const [collegeUniqueId, setCollegeUniqueId] = useState("");
 
-  const driverDto = { vehicleNo: vehicleNo, licenseNo: licenseNo };
+  const driverDto = {
+    vehicleNo: vehicleNo,
+    vehicleAge: vehicleAge,
+    mileage: mileage,
+  };
   const role = "DRIVER";
 
-  // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
-  // Handling the name change
   const handleName = (e) => {
     setName(e.target.value);
     setSubmitted(false);
@@ -30,50 +32,41 @@ export default function DriverSignup() {
     setMobile(e.target.value);
     setSubmitted(false);
   };
-
-  // Handling the email change
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setSubmitted(false);
   };
-
-  // Handling the password change
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    setSubmitted(false);
-  };
-
-  const handleAadhar = (e) => {
-    setAadhar(e.target.value);
     setSubmitted(false);
   };
   const handleVehicle = (e) => {
     setVehicle(e.target.value);
     setSubmitted(false);
   };
-
-  const handleLicense = (e) => {
-    setLicense(e.target.value);
+  const handleVehicleAge = (e) => {
+    setVehicleAge(e.target.value);
     setSubmitted(false);
   };
-
+  const handleMileage = (e) => {
+    setMileage(e.target.value);
+    setSubmitted(false);
+  };
   const handleCollegeUniqueId = (e) => {
     setCollegeUniqueId(e.target.value);
     setSubmitted(false);
   };
 
-  // Handling the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (
       name === "" ||
       email === "" ||
       mobile === "" ||
-      adhar === "" ||
       pwd === "" ||
       vehicleNo === "" ||
-      licenseNo === "" ||
+      vehicleAge === "" ||
+      mileage === "" ||
       collegeUniqueId === ""
     ) {
       setError(true);
@@ -83,20 +76,19 @@ export default function DriverSignup() {
           name,
           email,
           mobile,
-          adhar,
           pwd,
           role,
           driverDto,
-          collegeUniqueId, // Include the new field
+          collegeUniqueId,
         })
         .then((res) => {
           if (res.status === 200) {
-            alert(res.data); // Success message
+            alert(res.data);
           }
         })
         .catch((err) => {
           if (err.response && err.response.status === 400) {
-            alert(err.response.data); // Alert for invalid unique ID or other errors
+            alert(err.response.data);
           } else {
             console.log(err);
           }
@@ -107,30 +99,18 @@ export default function DriverSignup() {
     }
   };
 
-  // Showing success message
   const successMessage = () => {
-    // alert(`Driver ${name} successfully registered!!`)
     return (
       <div
         className="success"
-        style={{
-          display: submitted ? "" : "none",
-        }}
-      >
-        {/* <h1>Driver {name} successfully registered!!</h1> */}
-      </div>
+        style={{ display: submitted ? "" : "none" }}
+      ></div>
     );
   };
 
-  // Showing error message if error is true
   const errorMessage = () => {
     return (
-      <div
-        className="error"
-        style={{
-          display: error ? "" : "none",
-        }}
-      >
+      <div className="error" style={{ display: error ? "" : "none" }}>
         <h1>Please enter all the fields</h1>
       </div>
     );
@@ -138,119 +118,91 @@ export default function DriverSignup() {
 
   return (
     <div className="cont">
-      {/* Calling to the methods */}
       <div className="messages">
         {errorMessage()}
         {successMessage()}
       </div>
-      <div className="form-container sign-up-container">
-        <h1>Driver Registration</h1>
-        <form>
-          <table>
-            {/* Labels and inputs for form data */}
-            <tr>
-              <td>
-                <input
-                  onChange={handleName}
-                  className="input"
-                  value={name}
-                  type="text"
-                  placeholder="Name"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                {" "}
-                <input
-                  onChange={handleMobile}
-                  className="input"
-                  value={mobile}
-                  type="number"
-                  placeholder="Mobile Number"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <input
-                  onChange={handleEmail}
-                  className="input"
-                  value={email}
-                  type="email"
-                  placeholder="Email"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <input
-                  onChange={handlePassword}
-                  className="input"
-                  value={pwd}
-                  type="password"
-                  placeholder="Password"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <input
-                  onChange={handleAadhar}
-                  className="input"
-                  value={adhar}
-                  type="number"
-                  placeholder="Aadhar Number"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <input
-                  onChange={handleVehicle}
-                  className="input"
-                  value={vehicleNo}
-                  type="text"
-                  placeholder="Vehicle Number"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <input
-                  onChange={handleLicense}
-                  className="input"
-                  value={licenseNo}
-                  type="text"
-                  placeholder="License Number"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <input
-                  onChange={handleCollegeUniqueId}
-                  className="input"
-                  value={collegeUniqueId}
-                  type="text"
-                  placeholder="College Unique ID"
-                />
-              </td>
-            </tr>
-
+      <div className="form-container">
+        <div className="form-scrollable">
+          <div
+            style={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              textAlign: "center",
+              marginBottom: "60px",
+              color: "#007BFF",
+              letterSpacing: "1px",
+            }}
+          >
+            <h1>Driver Registration</h1>
+          </div>
+          <form>
+            <input
+              onChange={handleName}
+              className="input"
+              value={name}
+              type="text"
+              placeholder="Name"
+            />
+            <input
+              onChange={handleMobile}
+              className="input"
+              value={mobile}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={10}
+              placeholder="Mobile Number"
+            />
+            <input
+              onChange={handleEmail}
+              className="input"
+              value={email}
+              type="email"
+              placeholder="Email"
+            />
+            <input
+              onChange={handlePassword}
+              className="input"
+              value={pwd}
+              type="password"
+              placeholder="Password"
+            />
+            <input
+              onChange={handleVehicle}
+              className="input"
+              value={vehicleNo}
+              type="text"
+              placeholder="Vehicle Number"
+            />
+            <input
+              onChange={handleVehicleAge}
+              className="input"
+              value={vehicleAge}
+              type="number"
+              placeholder="Number of Years (Vehicle Age)"
+            />
+            <input
+              onChange={handleMileage}
+              className="input"
+              value={mileage}
+              type="text"
+              placeholder="Mileage (e.g., 50km/l or 5km/kWh)"
+            />
+            <input
+              onChange={handleCollegeUniqueId}
+              className="input"
+              value={collegeUniqueId}
+              type="text"
+              placeholder="College Unique ID"
+            />
             <button onClick={handleSubmit} type="submit">
               Submit
             </button>
-          </table>
-        </form>
+          </form>
+        </div>
       </div>
+
       <div className="overlay-container">
         <div className="overlay">
           <div className="overlay-panel overlay-right">
@@ -261,9 +213,7 @@ export default function DriverSignup() {
             <button
               className="ghost"
               id="signIn"
-              onClick={() => {
-                navigate("/driver/login");
-              }}
+              onClick={() => navigate("/driver/login")}
             >
               Sign In
             </button>

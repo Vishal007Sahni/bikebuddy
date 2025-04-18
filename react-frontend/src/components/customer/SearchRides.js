@@ -90,10 +90,11 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
       sourceInputRef.current,
       { types: ["establishment", "geocode"] } // Include broader types for places
     );
-    destinationAutocompleteRef.current = new window.google.maps.places.Autocomplete(
-      destinationInputRef.current,
-      { types: ["establishment", "geocode"] } // Include broader types for places
-    );
+    destinationAutocompleteRef.current =
+      new window.google.maps.places.Autocomplete(
+        destinationInputRef.current,
+        { types: ["establishment", "geocode"] } // Include broader types for places
+      );
 
     // Add listeners for place selection
     sourceAutocompleteRef.current.addListener("place_changed", () =>

@@ -40,6 +40,7 @@ import Flexboxeg from "./components/Flexboxeg";
 //import RideResults from "./components/customer/RideResults"; // Import RideResults
 import SearchRides from "./components/customer/SearchRides";
 import CarbonCalculator from "./components/carbonFootprint";
+import UpdateProfile from "./components/customer/UpdateProfile";
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
           <Route path="/customer/confirm" element={<ConfirmRide />} />
           <Route path="/customer/book" element={<BookRide />} />
           <Route path="/carbon-footprint" element={<CarbonCalculator />} />
+          <Route path="/customer/update-profile" element={<UpdateProfile />} />
         </Routes>
 
         <Footer />

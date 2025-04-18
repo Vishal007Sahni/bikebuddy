@@ -13,8 +13,6 @@
   }
 }
 
-
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -38,7 +36,48 @@
     transform: rotate(360deg);
   }
 }
- 
-.navButton{
+
+.navButton {
   float: right;
+}
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* NEW CHANGES */
+.form-container {
+  width: 400px;
+  height: 500px; /* fixed height */
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.form-scrollable {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 10px;
+  padding-top: 10px; /* Add top padding so top fields aren't cut off */
+  margin-top: 10px; /* Optional, space between header and inputs */
+}
+.form-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+.form-scrollable::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 5px;
 }
