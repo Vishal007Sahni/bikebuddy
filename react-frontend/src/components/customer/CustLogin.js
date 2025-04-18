@@ -73,20 +73,33 @@ const handleEmail = (e) => {
     else{
 
         let item ={email,pwd};
-        let result = await fetch('http://localhost:8080/customer/login/',{
-            method:'POST',
-            headers :{
-                "Content-Type":"application/json",
-                "Accept":"application/json"
-            },
-            body:JSON.stringify(item)
+        try {
+            let result = await fetch('http://localhost:8080/customer/login/',{
+                method:'POST',
+                headers :{
+                    "Content-Type":"application/json",
+                    "Accept":"application/json"
+                },
+                body:JSON.stringify(item)
 
-        });
-        result =await result.json();
-        sessionStorage.setItem('user',JSON.stringify(result))
-        setSubmitted(true);
-        setError(false);
-        navigate('/customer/controller')
+            });
+
+            if (result.status === 200) {
+                result = await result.json();
+                console.log("Login successful, user data:", result);
+                sessionStorage.setItem('user', JSON.stringify(result));
+                setSubmitted(true);
+                setError(false);
+                navigate('/customer/controller');
+            } else {
+                console.error("Login failed with status:", result.status);
+                setError(true);
+                alert("Invalid email or password. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            alert("An error occurred during login. Please try again later.");
+        }
     }
    }
     return (
