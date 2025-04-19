@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
+    "date-fns": "^4.1.0",
     "gh-pages": "^4.0.0",
     "jquery": "^3.6.1",
     "link-react": "^3.0.0",

@@ -28,7 +28,8 @@ function AddRide() {
     const destinationAutocompleteRef = useRef(null);
 
     useEffect(() => {
-        let driver = JSON.parse(sessionStorage.getItem('driver-info'));
+        const driver = JSON.parse(sessionStorage.getItem('driver-info'));
+        console.log("SessionStorage driver-info:", driver); // Log session storage data
         setDriver(driver);
 
         // Load Google Maps JavaScript API script
@@ -73,6 +74,7 @@ function AddRide() {
         if (!place.geometry) {
             console.error(`No geometry found for selected ${type}`);
             return;
+
         }
 
         if (type === 'source') {
@@ -173,6 +175,14 @@ function AddRide() {
             );
             return;
         }
+
+        if (!driver?.did) {
+            console.error("Driver ID is undefined. Please check sessionStorage.");
+            alert("Driver information is missing. Please log in again.");
+            return;
+        }
+
+        console.log("Driver ID:", driver.did); // Log driver ID for debugging
 
         axios
             .post(`http://localhost:8080/driver/addride/${driver.did}`, {
