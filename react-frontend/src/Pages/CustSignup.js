@@ -51,7 +51,7 @@ const handleSubmit = (e) => {
     if (cname === '' || mobile===''||  email === '' || pwd === '' || aadhar ==='') {
       setError(true);
     } else {
-        axios.post('http://localhost:8080/customer/register/',{
+        axios.post('http://192.168.1.10:8080/customer/register/',{
             cname,
             mobile,
             email,

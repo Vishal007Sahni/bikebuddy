@@ -1,5 +1,10 @@
 import axios from "axios";
 
-export default axios.create({
-    baseURL:'http://localhost:3000'
-})
+const instance = axios.create({
+  baseURL: '', // Empty base URL lets the proxy handle it
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+export default instance;

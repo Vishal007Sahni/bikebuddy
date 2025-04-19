@@ -2,6 +2,7 @@
   "name": "react-frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://192.168.1.10:8080",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,6 +15,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
+    "react-frontend": "file:",
     "react-google-autocomplete": "^2.7.5",
     "react-google-recaptcha": "^2.1.0",
     "react-icons": "^4.4.0",
@@ -23,12 +25,14 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.4",
     "react-suspense": "^0.1.0",
-    "save-dev": "^0.0.1-security",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env HOST=0.0.0.0 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
