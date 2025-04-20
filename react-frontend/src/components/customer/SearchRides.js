@@ -253,8 +253,8 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
       const driverInfo = JSON.parse(sessionStorage.getItem("driver-info"));
       const ridesWithDriverDetails = response.data.map((ride) => ({
         ...ride,
-        driverName: driverInfo.name,
-        driverPhone: driverInfo.mobile,
+        driverName: driverInfo?.name,
+        driverPhone: driverInfo?.mobile,
       }));
 
       setRides(ridesWithDriverDetails);
