@@ -166,6 +166,11 @@
 .confirm-button:active {
   transform: scale(0.95); /* Slightly shrink button on click */
 }
+.disabled-button {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
 
 /* Keyframes for animations */
 @keyframes fadeIn {

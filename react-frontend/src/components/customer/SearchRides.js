@@ -233,6 +233,17 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
     );
   };
 
+  const filterRidesByTime = (rides) => {
+    const currentDateTime = new Date(); // Get the current date and time
+    return rides.map((ride) => {
+      const rideDateTime = new Date(`${ride.date}T${ride.time}`); // Combine date and time into a Date object
+      return {
+        ...ride,
+        isOver: rideDateTime < currentDateTime, // Mark rides as over if they are before the current time
+      };
+    });
+  };
+
   const searchRides = async () => {
     if (!sourceLocation || !destinationLocation || !date) {
       alert("Please select source, destination, and date.");
@@ -257,7 +268,9 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
         driverPhone: driverInfo?.mobile,
       }));
 
-      setRides(ridesWithDriverDetails);
+      // Filter rides by time
+      const filteredRides = filterRidesByTime(ridesWithDriverDetails);
+      setRides(filteredRides);
     } catch (error) {
       console.error("Error fetching rides:", error);
       alert("Failed to fetch rides. Please try again.");
@@ -319,8 +332,8 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
                 <th>Destination</th>
                 <th>Charges</th>
                 <th>Time</th>
-                <th>Driver Name</th> {/* Add column for driver's name */}
-                <th>Driver Phone</th> {/* Add column for driver's phone */}
+                <th>Driver Name</th>
+                <th>Driver Phone</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -331,15 +344,21 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
                   <td>{ride.dest}</td>
                   <td>{ride.charges}</td>
                   <td>{ride.time}</td>
-                  <td>{ride.driverName}</td> {/* Display driver's name */}
-                  <td>{ride.driverPhone}</td> {/* Display driver's phone */}
+                  <td>{ride.driverName}</td>
+                  <td>{ride.driverPhone}</td>
                   <td>
-                    <button
-                      className="confirm-button"
-                      onClick={() => confirmRide(ride)}
-                    >
-                      Confirm Ride
-                    </button>
+                    {ride.isOver ? (
+                      <button className="disabled-button" disabled>
+                        Ride Over
+                      </button>
+                    ) : (
+                      <button
+                        className="confirm-button"
+                        onClick={() => confirmRide(ride)}
+                      >
+                        Confirm Ride
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

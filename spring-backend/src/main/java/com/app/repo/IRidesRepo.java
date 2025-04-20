@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.app.pojos.Rides;
 
 public interface IRidesRepo extends JpaRepository<Rides, Integer> {
 	
-	@Query(value="select * from rides_tbl r where r.source=:source and r.dest=:dest and r.date=:time",nativeQuery = true)
-	public List<Rides> findRideByDetials(String source,String dest,LocalDate time);
+	@Query("SELECT r FROM Rides r WHERE r.source = :source AND r.dest = :dest AND r.date = :date")
+	List<Rides> findRideByDetials(@Param("source") String source, @Param("dest") String dest, @Param("date") LocalDate date);
 	
-	
-
 }
