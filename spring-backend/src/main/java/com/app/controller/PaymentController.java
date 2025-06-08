@@ -17,51 +17,41 @@ import com.razorpay.*;
 
 @RestController
 @RequestMapping("/payment")
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PaymentController {
 
-	
-	private RazorpayClient client;
-	private static final String id = "rzp_test_drMMd1sEHSCuCD";
-	private static final String secret="kgcp9u6hPwh2x3AVHwZ8onC3";
-	
-	@PostMapping("/createorder")
-	public OrderResponse createOrder(@RequestBody OrderRequest orderRequest) throws RazorpayException {
-		
-//		int amt = orderRequest.getAmount();
-//		client = new RazorpayClient(id, secret);
-//		JSONObject ob = new JSONObject();
-//		ob.put("amount", amt*100);
-//		ob.put("currency", "INR");
-//		ob.put("receipt", "txn_123456");
-//		Order order = client.orders.create(ob);
-//		System.out.println(order);
-//		return order;
-		
-		OrderResponse orderResponse = new OrderResponse();
-		client = new RazorpayClient(id, secret); // ID == rzp_test_drMMd1sEHSCuCD // Secret == kgcp9u6hPwh2x3AVHwZ8onC3
-		Order order = createRazorPayOrder(orderRequest.getAmount());
-		System.out.println("-----------------Payment Started---------------");
-		String orderId = (String)order.get("id");
-		System.out.println("Order Id = "+orderId);
-		orderResponse.setRazorPayOrderId(orderId);
-		orderResponse.setAmount(orderRequest.getAmount());
-		orderResponse.setId(id);
-		orderResponse.setKey(secret);
-		orderResponse.setCid(orderRequest.getCid());
-		orderResponse.setRid(orderRequest.getRid());
-		System.out.println(orderResponse.toString());
-		System.out.println(order);
-		return orderResponse;
-	}
-	
-	private Order createRazorPayOrder(double amount) throws RazorpayException{
-		JSONObject options = new JSONObject();
-		options.put("amount",amount*100);
-		options.put("currency", "INR");
-		options.put("receipt", "txn_123456");
-		options.put("payment_capture", 1);
-		return client.orders.create(options);
-	}
-	
+    private RazorpayClient client;
+
+    private static final String id = "rzp_test_TPGOsj7k2QPYfW"; // Test key
+    private static final String secret = "YN1gpFU90rfgpkFqQS1X9blb"; // Test secret
+
+    @PostMapping("/createorder")
+    public OrderResponse createOrder(@RequestBody OrderRequest orderRequest) throws RazorpayException {
+        OrderResponse orderResponse = new OrderResponse();
+        client = new RazorpayClient(id, secret); // Use test key and secret directly
+        Order order = createRazorPayOrder(orderRequest.getAmount());
+        System.out.println("-----------------Payment Started---------------");
+        String orderId = (String) order.get("id");
+        System.out.println("Order Id = " + orderId);
+        orderResponse.setRazorPayOrderId(orderId);
+        orderResponse.setAmount(orderRequest.getAmount());
+        orderResponse.setId(id);
+        orderResponse.setKey(id); // Ensure the correct key is returned
+        orderResponse.setCid(orderRequest.getCid());
+        orderResponse.setRid(orderRequest.getRid());
+        System.out.println(orderResponse.toString());
+        System.out.println(order);
+        return orderResponse;
+    }
+
+    private Order createRazorPayOrder(double amount) throws RazorpayException {
+        JSONObject options = new JSONObject();
+        options.put("amount", amount * 100); // Amount in paise
+        options.put("currency", "INR");
+        options.put("receipt", "txn_123456");
+        options.put("payment_capture", 1); // Auto-capture payment
+        // Remove or comment out the "method" parameter to allow all payment methods
+        // options.put("method", "upi");
+        return client.orders.create(options);
+    }
 }

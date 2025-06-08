@@ -142,7 +142,7 @@ function AddRide() {
     };
 
     const validateCharges = (distanceInKm) => {
-        const maxAllowedCharges = distanceInKm * 9; // Maximum allowed charges at ₹9 per km
+        const maxAllowedCharges = distanceInKm * 6; // Maximum allowed charges at ₹6 per km
         if (charges > maxAllowedCharges) {
             alert(
                 `Charges exceed the maximum allowed limit of ₹${maxAllowedCharges.toFixed(
@@ -166,7 +166,7 @@ function AddRide() {
             return;
         }
 
-        const maxAllowedCharges = distance * 9; // Maximum allowed charges at ₹9 per km
+        const maxAllowedCharges = distance * 6; // Maximum allowed charges at ₹6 per km
         if (charges > maxAllowedCharges) {
             alert(
                 `Charges exceed the maximum allowed limit of ₹${maxAllowedCharges.toFixed(

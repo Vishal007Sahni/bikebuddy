@@ -13,7 +13,6 @@ export default function CustSignup() {
   const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');
   const [pwd, setPassword] = useState('');
-  const [adhar, setAadhar] = useState();
   const [collegeUniqueId, setCollegeUniqueId] = useState(""); // New state
   const role = "CUSTOMER";
 
@@ -43,11 +42,6 @@ export default function CustSignup() {
     setSubmitted(false);
   };
 
-  const handleAadhar = (e)=>{
-    setAadhar(e.target.value);
-    setSubmitted(false);
-  }
-
   const handleCollegeUniqueId = (e) => {
     setCollegeUniqueId(e.target.value);
     setSubmitted(false);
@@ -55,9 +49,9 @@ export default function CustSignup() {
 
  
   // Handling the form submission
-const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (name === "" || mobile === "" || email === "" || pwd === "" || adhar === "" || collegeUniqueId === "") {
+    if (name === "" || mobile === "" || email === "" || pwd === "" || collegeUniqueId === "") {
       setError(true);
     } else {
       axios
@@ -65,7 +59,6 @@ const handleSubmit = (e) => {
           name,
           email,
           mobile,
-          adhar,
           pwd,
           role,
           collegeUniqueId, // Include the new field
@@ -135,7 +128,6 @@ const handleSubmit = (e) => {
       
         {/* Labels and inputs for form data */}
         <tr>
-           
         <td>
         <input onChange={handleName} className="input"
           value={name} type="text" placeholder='Name'/> 
@@ -143,15 +135,12 @@ const handleSubmit = (e) => {
         </tr>
 
         <tr>
-           
-       
         <td> <input onChange={handleMobile} className="input"
           value={mobile} type="number"  placeholder='Mobile Number'  /> 
         </td>
         </tr>
 
         <tr>
-           
         <td>
         <input onChange={handleEmail} className="input"
           value={email} type="email" placeholder='Email' /> 
@@ -159,34 +148,24 @@ const handleSubmit = (e) => {
         </tr>
         
         <tr>
-           
         <td>
         <input onChange={handlePassword} className="input"
           value={pwd} type="password" placeholder='Password' /> 
           </td>
         </tr>
 
-        <tr> 
-         
-        <td>
-        <input onChange={handleAadhar} className="input"
-          value={adhar} type="number" placeholder='Aadhar Number'/> 
+        <tr>
+          <td>
+            <input
+                onChange={handleCollegeUniqueId}
+                className="input"
+                value={collegeUniqueId}
+                type="text"
+                placeholder="College Unique ID"
+            />
           </td>
         </tr>
 
-        <tr>
-    <td>
-        <input
-            onChange={handleCollegeUniqueId}
-            className="input"
-            value={collegeUniqueId}
-            type="text"
-            placeholder="College Unique ID"
-        />
-    </td>
-</tr>
-
-       
         <br/>
         <tr>
             <td>

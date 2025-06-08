@@ -311,7 +311,7 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
         </div>
         <div className="search-input-wrapper">
           <input
-            type="text"
+            type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             placeholder="Enter date (YYYY-MM-DD)"
