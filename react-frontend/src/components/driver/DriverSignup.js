@@ -142,45 +142,60 @@ export default function DriverSignup() {
               className="input"
               value={name}
               type="text"
-              placeholder="Name"
+              placeholder="Full Name"
+              required
+              minLength={2}
             />
             <input
               onChange={handleMobile}
               className="input"
               value={mobile}
-              type="text"
+              type="tel"
               inputMode="numeric"
-              pattern="[0-9]*"
+              pattern="[0-9]{10}"
               maxLength={10}
-              placeholder="Mobile Number"
+              minLength={10}
+              placeholder="10-digit Mobile Number"
+              required
+              title="Please enter a valid 10-digit mobile number"
             />
             <input
               onChange={handleEmail}
               className="input"
               value={email}
               type="email"
-              placeholder="Email"
+              placeholder="Email (e.g., user@example.com)"
+              required
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              title="Please enter a valid email address"
             />
             <input
               onChange={handlePassword}
               className="input"
               value={pwd}
               type="password"
-              placeholder="Password"
+              placeholder="Password (min 6 characters)"
+              required
+              minLength={6}
             />
             <input
               onChange={handleVehicle}
               className="input"
               value={vehicleNo}
               type="text"
-              placeholder="Vehicle Number"
+              placeholder="Vehicle Number (e.g., MH12AB1234)"
+              required
+              minLength={6}
             />
             <input
               onChange={handleVehicleAge}
               className="input"
               value={vehicleAge}
               type="number"
-              placeholder="Number of Years (Vehicle Age)"
+              placeholder="Vehicle Age (in years)"
+              required
+              min={0}
+              max={50}
             />
             <input
               onChange={handleMileage}
@@ -188,6 +203,8 @@ export default function DriverSignup() {
               value={mileage}
               type="text"
               placeholder="Mileage (e.g., 50km/l or 5km/kWh)"
+              required
+              minLength={2}
             />
             <input
               onChange={handleCollegeUniqueId}
@@ -195,6 +212,8 @@ export default function DriverSignup() {
               value={collegeUniqueId}
               type="text"
               placeholder="College Unique ID"
+              required
+              minLength={2}
             />
             <button onClick={handleSubmit} type="submit">
               Submit

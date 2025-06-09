@@ -115,9 +115,21 @@ const handleEmail = (e) => {
                {successMessage()}
               
            </div>
-            <input type="text" placeholder="email" onChange={handleEmail} />
-            
-            <input type="password" placeholder="password" onChange={handlePassword} />
+            <input
+              type="email"
+              placeholder="Email (e.g., user@example.com)"
+              onChange={handleEmail}
+              required
+              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              title="Please enter a valid email address"
+            />
+            <input
+              type="password"
+              placeholder="Password (min 6 characters)"
+              onChange={handlePassword}
+              required
+              minLength={6}
+            />
            
             <button  onClick={login}>Login</button>
             </form>

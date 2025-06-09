@@ -129,39 +129,74 @@ export default function CustSignup() {
         {/* Labels and inputs for form data */}
         <tr>
         <td>
-        <input onChange={handleName} className="input"
-          value={name} type="text" placeholder='Name'/> 
+        <input
+          onChange={handleName}
+          className="input"
+          value={name}
+          type="text"
+          placeholder="Full Name"
+          required
+          minLength={2}
+        /> 
         </td>
         </tr>
 
         <tr>
-        <td> <input onChange={handleMobile} className="input"
-          value={mobile} type="number"  placeholder='Mobile Number'  /> 
+        <td> <input
+          onChange={handleMobile}
+          className="input"
+          value={mobile}
+          type="tel"
+          placeholder="10-digit Mobile Number"
+          inputMode="numeric"
+          pattern="[0-9]{10}"
+          maxLength={10}
+          minLength={10}
+          required
+          title="Please enter a valid 10-digit mobile number"
+        /> 
         </td>
         </tr>
 
         <tr>
         <td>
-        <input onChange={handleEmail} className="input"
-          value={email} type="email" placeholder='Email' /> 
+        <input
+          onChange={handleEmail}
+          className="input"
+          value={email}
+          type="email"
+          placeholder="Email (e.g., user@example.com)"
+          required
+          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+          title="Please enter a valid email address"
+        /> 
           </td>
         </tr>
         
         <tr>
         <td>
-        <input onChange={handlePassword} className="input"
-          value={pwd} type="password" placeholder='Password' /> 
+        <input
+          onChange={handlePassword}
+          className="input"
+          value={pwd}
+          type="password"
+          placeholder="Password (min 6 characters)"
+          required
+          minLength={6}
+        /> 
           </td>
         </tr>
 
         <tr>
           <td>
             <input
-                onChange={handleCollegeUniqueId}
-                className="input"
-                value={collegeUniqueId}
-                type="text"
-                placeholder="College Unique ID"
+            onChange={handleCollegeUniqueId}
+            className="input"
+            value={collegeUniqueId}
+            type="text"
+            placeholder="College Unique ID"
+            required
+            minLength={2}
             />
           </td>
         </tr>
