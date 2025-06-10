@@ -36,8 +36,10 @@ public class User {
 	private String imagepath;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
-	public User(String name, String email, long mobile, long adhar, String pwd, Role role) {
+	@Column(unique = true)
+	private String collegeUniqueId;
+
+	public User(String name, String email, long mobile, long adhar, String pwd, Role role, String collegeUniqueId) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -45,6 +47,7 @@ public class User {
 		this.adhar = adhar;
 		this.pwd = pwd;
 		this.role = role;
+		this.collegeUniqueId = collegeUniqueId;
 	}
 	
 		

@@ -31,7 +31,7 @@ export default class DriverList extends Component {
     return (
     <div>
      
-        <h1>Authorized Driver List</h1>
+        <h1> Driver List</h1>
         
             <Table className='styled-table'>
                 <thead>
@@ -39,14 +39,9 @@ export default class DriverList extends Component {
                         <th>Driver Id</th>
                         <th>Name</th>
                         <th>Email Id</th>
-                        <th>Adhar Card</th>
-                        <th>Earnings</th>
-                        <th>License No</th>
-                        <th>Rating</th>
                         <th>Vehilce No</th>
+                        <th>College Unique ID</th>
                         <th>Actions</th>
-                        
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -56,18 +51,13 @@ export default class DriverList extends Component {
                                 <td>{driver.did}</td>
                                 <td>{driver.name}</td>
                                 <td>{driver.email}</td>
-                                <td>{driver.adhar}</td>
-                                <td>{driver.earnings}</td>
                                 <td>{driver.licenseNo}</td>
-                                <td>{driver.ratings}</td>
-                                <td>{driver.vehicleNo}</td>
+                                <td>{driver.collegeUniqueId}</td>
                                 <td>
                                     <ButtonGroup>
-                                    <button onClick={this.deleteAccount.bind(this,driver.did)}>Delete</button>
+                                        <button onClick={this.deleteAccount.bind(this,driver.did)}>Delete</button>
                                     </ButtonGroup>
-
                                 </td>
-                                                                
                             </tr>
                         ))
                     }

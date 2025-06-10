@@ -20,9 +20,14 @@ export default function AdminController() {
 
         <button onClick={()=>{navigate("/admin/customerlist")}}>Customer List</button>{'    '}&nbsp;
         <button onClick={()=>{navigate("/admin/driverlist")}}>Driver List</button>{'    '}&nbsp;
-        <button onClick={()=>{navigate("/admin/newdriverlist")}}>Authenticate New Drivers</button>{'    '}&nbsp;
+        <button
+          title="Approve or reject new drivers. Only authorized drivers can add rides."
+          onClick={()=>{navigate("/admin/newdriverlist")}}
+        >
+          Authenticate New Drivers
+        </button>{'    '}&nbsp;
         <button onClick={()=>{navigate("/admin/paymentstable")}}>Payments Table</button>
-       
+        {/* Only drivers authorized here can add rides */}
       </div>
     )
   

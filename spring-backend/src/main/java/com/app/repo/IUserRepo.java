@@ -13,5 +13,7 @@ public interface IUserRepo extends JpaRepository<User, Integer> {
 	
 	@Query(value="select email from user_tbl a where a.email=:email and a.role=:role",nativeQuery=true)
 	public String findByEmail(String email,String role);
+
+	boolean existsByCollegeUniqueIdIgnoreCase(String collegeUniqueId);
 	
 }

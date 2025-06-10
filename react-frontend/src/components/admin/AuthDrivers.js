@@ -36,14 +36,9 @@ export default class AuthDrivers extends Component {
                         <th>Driver Id</th>
                         <th>Name</th>
                         <th>Email Id</th>
-                        <th>Adhar Card</th>
-                        <th>Earnings</th>
-                        <th>License No</th>
-                        <th>Rating</th>
-                        <th>vehilce No</th>
+                        <th>vehicle No</th>
+                        <th>College Unique ID</th>
                         <th>Action</th>
-                        
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -53,15 +48,11 @@ export default class AuthDrivers extends Component {
                                 <td>{driver.did}</td>
                                 <td>{driver.name}</td>
                                 <td>{driver.email}</td>
-                                <td>{driver.adhar}</td>
-                                <td>{driver.earnings}</td>
                                 <td>{driver.licenseNo}</td>
-                                <td>{driver.ratings}</td>
-                                <td>{driver.vehicleNo}</td>
+                                <td>{driver.collegeUniqueId}</td>
                                 <td>
                                     <button onClick={this.authorizeDriver.bind(this,driver.did)}>Authorize</button>
                                 </td>
-                                                                
                             </tr>
                         ))
                     }

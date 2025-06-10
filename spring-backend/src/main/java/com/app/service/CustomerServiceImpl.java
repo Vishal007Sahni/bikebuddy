@@ -56,7 +56,15 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Override
 	public CustomerResponse extractCustomer(User user) {
 		Integer cid = custRepo.getCustomerId(user.getUid());
-		return new CustomerResponse(user.getUid(),user.getName(),user.getEmail(),user.getMobile(),user.getAdhar(),cid);
+		return new CustomerResponse(
+			user.getUid(),
+			user.getName(),
+			user.getEmail(),
+			user.getMobile(),
+			user.getAdhar(),
+			cid,
+			user.getCollegeUniqueId() // Pass collegeUniqueId
+		);
 	}
 
 	@Override

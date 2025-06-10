@@ -51,7 +51,20 @@ public class UserServiceImpl implements IUserService {
 	        return "Invalid College Unique ID";
 	    }
 
-		User user = new User(u.getName(),u.getEmail(),u.getMobile(),u.getAdhar(),u.getPwd(),u.getRole());
+	    // Ensure unique collegeUniqueId for both CUSTOMER and DRIVER
+	    if (userRepo.existsByCollegeUniqueIdIgnoreCase(u.getCollegeUniqueId())) {
+	        return "College Unique ID already used by another user";
+	    }
+
+		User user = new User(
+			u.getName(),
+			u.getEmail(),
+			u.getMobile(),
+			u.getAdhar(),
+			u.getPwd(),
+			u.getRole(),
+			u.getCollegeUniqueId() // Pass collegeUniqueId to User
+		);
 		String email = userRepo.findByEmail(u.getEmail(),u.getRole().toString());
 		if(user.getEmail().equals(email))
 		{

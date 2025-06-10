@@ -17,6 +17,7 @@ function AddRide() {
     const type = "NORMAL";
     const [charges, setCharges] = useState('');
     const [distance, setDistance] = useState(null); // State to store calculated distance
+    const [isAuthorized, setIsAuthorized] = useState(true); // New state
 
     //error checking
     const [submitted, setSubmitted] = useState('');
@@ -31,6 +32,13 @@ function AddRide() {
         const driver = JSON.parse(sessionStorage.getItem('driver-info'));
         console.log("SessionStorage driver-info:", driver); // Log session storage data
         setDriver(driver);
+
+        // Check if driver is authorized
+        if (driver && driver.status !== true) {
+            setIsAuthorized(false);
+        } else {
+            setIsAuthorized(true);
+        }
 
         // Load Google Maps JavaScript API script
         const script = document.createElement('script');
@@ -156,6 +164,11 @@ function AddRide() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (!isAuthorized) {
+            alert("You are not authorized to add rides. Please wait for admin approval.");
+            return;
+        }
+
         if (!source || !dest || !date || !type || !charges) {
             setError(true);
             return;
@@ -240,7 +253,11 @@ function AddRide() {
   return (
     <div className='cont'>
         <div>
-           
+            {!isAuthorized && (
+                <div style={{ color: 'red', marginBottom: '20px' }}>
+                    You are not authorized to add rides. Please wait for admin approval.
+                </div>
+            )}
         </div>
         <div className='messages'>
             {errorMessage()}
@@ -333,7 +350,9 @@ function AddRide() {
             <td></td>
             <td> <button
                 onClick={handleSubmit}
-                 type='submit'>Add Ride</button></td>
+                 type='submit'
+                 disabled={!isAuthorized}
+                >Add Ride</button></td>
            </tr>
                
                 

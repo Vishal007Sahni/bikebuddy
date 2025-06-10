@@ -23,5 +23,6 @@ public class UserDto {
 	private String pwd;
 	private Role role;
 	private DriverDto driverDto;
-	private String collegeUniqueId; // New field for college unique ID
+	private String collegeUniqueId;
+	
 }

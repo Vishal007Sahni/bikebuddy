@@ -73,7 +73,18 @@ public class DriverServiceImpl implements IDriverService {
 	@Override
 	public DriverResponse extractDriver(User user) {
 		Driver driver = driverRepo.getDriver(user.getUid());
-		return new DriverResponse(user.getUid(),user.getName(),user.getEmail(),user.getMobile(),user.getAdhar(),driver.getLicenseNo(),driver.getVehicleNo(),driver.getDid(),driver.isStatus());
+		return new DriverResponse(
+			user.getUid(),
+			user.getName(),
+			user.getEmail(),
+			user.getMobile(),
+			user.getAdhar(),
+			driver.getLicenseNo(),
+			driver.getVehicleNo(),
+			driver.getDid(),
+			driver.isStatus(),
+			user.getCollegeUniqueId() // Pass collegeUniqueId
+		);
 	}
 
 	@Override

@@ -39,9 +39,8 @@ export default class CustomerList extends Component {
                         <th>Name</th>
                         <th>Email Id</th>
                         <th>Adhar Card</th>
+                        <th>College Unique ID</th> {/* Added column */}
                         <th>Actions</th>
-                                              
-                        
                     </tr>
                 </thead>
                 <tbody>
@@ -52,13 +51,12 @@ export default class CustomerList extends Component {
                                 <td>{customer.name}</td>
                                 <td>{customer.email}</td>
                                 <td>{customer.adhar}</td>
+                                <td>{customer.collegeUniqueId}</td> {/* Display collegeUniqueId */}
                                 <td>
                                     <ButtonGroup>
                                     <button onClick={this.deleteAccount.bind(this,customer.cid)}>Delete</button>
                                     </ButtonGroup>
                                 </td>
-                                
-                                                                
                             </tr>
                         ))
                     }
