@@ -21,44 +21,21 @@ export default class Contact extends Component {
               </div>
               <div class="bottom-text">
                 <p>
-                  Fixyman is proud to be the name that nearly 1 million
-                  homeowners have trusted since 1996 for home improvement and
-                  repair, providing virtually any home repair.
+                  Have questions about BikeBuddy, ride-sharing, or app support? We're here to help you travel smarter, safer, and greener on campus. Reach out to us anytime.
                 </p>
               </div>
             </div>
             <div class="contact-address-box row">
               <div class="col-sm-4 single-contact-address-box text-center">
                 <div class="icon-holder">
-                  <span class="icon-clock-1">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                    <span class="path3"></span>
-                    <span class="path4"></span>
-                    <span class="path5"></span>
-                    <span class="path6"></span>
-                    <span class="path7"></span>
-                    <span class="path8"></span>
-                    <span class="path9"></span>
-                    <span class="path10"></span>
-                    <span class="path11"></span>
-                    <span class="path12"></span>
-                    <span class="path13"></span>
-                    <span class="path14"></span>
-                    <span class="path15"></span>
-                    <span class="path16"></span>
-                    <span class="path17"></span>
-                    <span class="path18"></span>
-                    <span class="path19"></span>
-                    <span class="path20"></span>
-                  </span>
+                  <span class="icon-clock-1"></span>
                 </div>
-                <h3>Lorem Ipsum</h3>
-                <h2>Lorem Ipsum is simply dummy</h2>
+                <h3>Support Hours</h3>
+                <h2>Monday - Friday, 9:30am to 6:30pm</h2>
               </div>
 
               <div class="col-sm-4 single-contact-address-box main-branch">
-                <h3>Lorem Ipsum</h3>
+                <h3>BikeBuddy Office</h3>
                 <div class="inner">
                   <ul>
                     <li>
@@ -67,19 +44,19 @@ export default class Contact extends Component {
                       </div>
                       <div class="text">
                         <p>
-                          Lorem Ipsum, 40C, Lorem Ipsum dummy,
-                          <br /> Lorem Ipsum, Ch 98054
+                          BikeBuddy HQ, Room 304, Innovation Block<br />
+                          DY Patil School of Engineering, Pune, 411044
                         </p>
                       </div>
                     </li>
                     <li>
                       <div class="title">
-                        <h4>Mo. & Mail:</h4>
+                        <h4>Phone & Email:</h4>
                       </div>
                       <div class="text">
                         <p>
-                          +91 7415531316 , 7387391619
-                          <br /> mailjoinmyride@gmail.com{" "}
+                          +91 7415531316 , 7387391619<br />
+                          support@bikebuddyapp.com
                         </p>
                       </div>
                     </li>
@@ -89,8 +66,8 @@ export default class Contact extends Component {
                       </div>
                       <div class="text">
                         <p>
-                          Mon-Fri: 9:30am - 6:30pm
-                          <br /> Sat-Sun: Closed
+                          Mon-Fri: 9:30am - 6:30pm<br />
+                          Sat-Sun: Closed
                         </p>
                       </div>
                     </li>
@@ -100,15 +77,10 @@ export default class Contact extends Component {
 
               <div class="col-sm-4 single-contact-address-box text-center">
                 <div class="icon-holder">
-                  <span class="icon-question-2">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                    <span class="path3"></span>
-                    <span class="path4"></span>
-                  </span>
+                  <span class="icon-question-2"></span>
                 </div>
-                <h3>Lorem Ipsum</h3>
-                <h2>Lorem Ipsum is simply dummy</h2>
+                <h3>Need Help?</h3>
+                <h2>We're happy to assist with your BikeBuddy journey</h2>
               </div>
             </div>
           </div>
@@ -132,8 +104,7 @@ export default class Contact extends Component {
                       </div>
                       <div class="text-box float-right">
                         <p>
-                          Lorem Ipsum is simply dummy text of the printing and
-                          typesetting industry.{" "}
+                          Reach out for technical support, feedback, or partnership inquiries. We value your input and strive to make your ride-sharing experience better every day.
                         </p>
                       </div>
                     </div>
@@ -156,7 +127,7 @@ export default class Contact extends Component {
                                   name="form_name"
                                   value=""
                                   placeholder="Name"
-                                  required=""
+                                  required
                                 />
                               </div>
                               <div class="input-box">
@@ -175,7 +146,7 @@ export default class Contact extends Component {
                                   name="form_email"
                                   value=""
                                   placeholder="Email"
-                                  required=""
+                                  required
                                 />
                               </div>
                               <div class="input-box">
@@ -183,7 +154,7 @@ export default class Contact extends Component {
                                   type="text"
                                   name="form_website"
                                   value=""
-                                  placeholder="Website"
+                                  placeholder="Website (Optional)"
                                 />
                               </div>
                             </div>
@@ -206,7 +177,7 @@ export default class Contact extends Component {
                             <textarea
                               name="form_message"
                               placeholder="Your Message..."
-                              required=""
+                              required
                             ></textarea>
                           </div>
                           <div class="button-box">

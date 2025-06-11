@@ -7,9 +7,9 @@ function Footer() {
             <footer>
                 <div className="row justify-content-around mb-0 pt-5 mx-4">
                     {/* Social Media Section */}
-                    <div className="col-xl-2 col-md-4 order-xl-1 order-4 mr-xl-0 my-auto">
+                    <div className="col-xl-2 col-md-4 order-xl-1 order-4 my-auto text-center">
                         <ul className="list-unstyled mt-md-3 mt-5">
-                            <li>Social Media</li>
+                            <li>Follow Us</li>
                             <li className="social">
                                 <span>
                                     <i className="fa fa-facebook" aria-hidden="true"></i>
@@ -23,48 +23,39 @@ function Footer() {
                             </li>
                         </ul>
                         <ul className="list-unstyled my-xl-4 my-md-3">
-                            <li>Copyright</li>
-                            <li>&#9400; JoinMyRide 2022</li>
+                            <li>© BikeBuddy 2025</li>
+                            <li>All rights reserved</li>
                         </ul>
                     </div>
 
-                    {/* Other Links */}
+                    {/* Navigation Sections */}
                     <div className="col-xl-2 col-md-3 pt-4 order-1">
                         <ul className="list-unstyled">
-                            <li className="mt-md-0 mt-4">Our Solution</li>
-                            <li>Integrated Security</li>
-                            <li>Core Features</li>
-                            <li>Product Features</li>
-                            <li>Pricing</li>
+                            <li className="mt-md-0 mt-4">Features</li>
+                            <li>Real-Time Tracking</li>
+                            <li>Carbon Footprint</li>
+                            <li>Ride Matching</li>
+                            <li>Safety Alerts</li>
                         </ul>
                     </div>
                     <div className="col-xl-2 col-md-3 pt-4 order-2">
                         <ul className="list-unstyled">
-                            <li className="mt-md-0 mt-4">Your Needs</li>
-                            <li>Integrated Security</li>
-                            <li>Core Features</li>
-                            <li>Product Features</li>
-                            <li>Pricing</li>
+                            <li className="mt-md-0 mt-4">Resources</li>
+                            <li>Help Center</li>
+                            <li>Privacy Policy</li>
+                            <li>Terms of Use</li>
+                            <li>FAQs</li>
                         </ul>
                     </div>
-                    <div className="col-xl-auto col-md-3 pt-4 my-sm-0 order-md-3 order-sm-1">
+                    <div className="col-xl-auto col-md-3 pt-4 order-md-3">
                         <ul className="list-unstyled">
-                            <li className="mt-md-0 mt-4">Offer</li>
-                            <li>Integrated Security</li>
-                            <li>Core Features</li>
-                            <li>Product Features</li>
-                            <li>Pricing</li>
+                            <li className="mt-md-0 mt-4">Explore</li>
+                            <li>Our Mission</li>
+                            <li>Blog</li>
+                            <li>Campus Partnerships</li>
+                            <li>Feedback</li>
                         </ul>
                     </div>
-
-                    {/* Subscribe Section (Optional) */}
-                    {/* <div className="col-xl-auto col-md-6 col-12 pt-4 my-sm-0 order-6">
-                        <div className="form-group">
-                            <label htmlFor="email" className="mb-3"><b>Subscribe to our newsletter and Get 10% off</b></label>
-                            <input type="email" className="form-control form-control-lg" placeholder="Enter email" id="email"/>
-                        </div>
-                        <button type="button" className="btn btn-primary btn-lg btn-block my-2 Subscribe mt-4 mb-3">Subscribe</button>
-                    </div> */}
                 </div>
             </footer>
         </div>
@@ -72,5 +63,3 @@ function Footer() {
 }
 
 export default Footer;
-
-
