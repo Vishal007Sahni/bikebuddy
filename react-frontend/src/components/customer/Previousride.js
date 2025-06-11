@@ -12,12 +12,20 @@ export default function Previousride(){
     useEffect(()=>{
         let cust = JSON.parse(sessionStorage.getItem('user'))
         setUser(cust)
-        console.log(cust.cid)
-        axios.get(`http://localhost:8080/customer/previous_rides/${cust.cid}`)
-        .then(res=>{(console.log('posting data',res))
-        setPrev(res.data)
-       
-    })
+        if (cust && cust.cid) {
+            console.log("Fetching previous rides for cid:", cust.cid);
+            axios.get(`http://localhost:8080/customer/previous_rides/${cust.cid}`)
+            .then(res=>{
+                console.log('Received previous rides:', res.data);
+                setPrev(res.data)
+            })
+            .catch(err => {
+                console.error("Error fetching previous rides:", err);
+                setPrev([]);
+            });
+        } else {
+            console.warn("No customer or cid found in sessionStorage.");
+        }
     },[])
     console.log(cust.cid)
     return (

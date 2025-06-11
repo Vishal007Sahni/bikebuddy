@@ -31,6 +31,8 @@ public interface IDriverService {
 
 	public String updateRide(Integer rid,UpdateRideDto updateRideDto);
 	
+	public Driver findDriverById(Integer did);
+	
 	
 	
 	

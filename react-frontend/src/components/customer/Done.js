@@ -86,7 +86,7 @@ function Done (){
         // Auto-navigate after 30 seconds
         const navTimer = setTimeout(() => {
             navigate("/customer/controller");
-        }, 30000);
+        }, 20000);
 
         return () => {
             clearTimeout(timer);

@@ -53,7 +53,6 @@ function NavbarComp() {
               <Nav.Link as={Link} to={"/"} onClick={() => setExpanded(false)}>Home</Nav.Link>
               <Nav.Link as={Link} to={"/about-us"} onClick={() => setExpanded(false)}>About Us</Nav.Link>
               <Nav.Link as={Link} to={"/team"} onClick={() => setExpanded(false)}>Team</Nav.Link>
-              <Nav.Link as={Link} to={"/career"} onClick={() => setExpanded(false)}>Career</Nav.Link>
               <Nav.Link as={Link} to={"/contact-us"} onClick={() => setExpanded(false)}>Contact Us</Nav.Link>
               
               <Button 

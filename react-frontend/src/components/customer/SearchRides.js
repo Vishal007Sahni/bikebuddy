@@ -260,13 +260,27 @@ const LocationSearchBar = ({ onPlaceSelected }) => {
         }
       );
 
-      // Add driver details from sessionStorage to each ride
-      const driverInfo = JSON.parse(sessionStorage.getItem("driver-info"));
-      const ridesWithDriverDetails = response.data.map((ride) => ({
-        ...ride,
-        driverName: driverInfo?.name,
-        driverPhone: driverInfo?.mobile,
-      }));
+      // Fetch driver details for each ride from backend
+      const ridesWithDriverDetails = await Promise.all(
+        response.data.map(async (ride) => {
+          try {
+            // Fetch driver details using driver id
+            const driverRes = await axios.get(`http://localhost:8080/driver/${ride.did}`);
+            return {
+              ...ride,
+              driverName: driverRes.data.name,
+              driverPhone: driverRes.data.mobile,
+            };
+          } catch (err) {
+            // If error, fallback to empty values
+            return {
+              ...ride,
+              driverName: "",
+              driverPhone: "",
+            };
+          }
+        })
+      );
 
       // Filter rides by time
       const filteredRides = filterRidesByTime(ridesWithDriverDetails);

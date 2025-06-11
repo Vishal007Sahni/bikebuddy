@@ -88,13 +88,6 @@ function DriverController() {
 
       <button
         style={{ margin: "5px" }}
-        onClick={() => navigate("/driver/subsride")}
-      >
-        Add Subscription Rides
-      </button>
-
-      <button
-        style={{ margin: "5px" }}
         onClick={() => navigate("/driver/myrides")}
       >
         Previous Rides

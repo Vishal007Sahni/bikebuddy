@@ -126,10 +126,10 @@ public class CustomerController {
 		}
 		
 		
-		@PostMapping("/return/{rid}")
+		@GetMapping("/return/{rid}")
 		public ResponseEntity<?> returnRide(@PathVariable Integer rid){
-			Rides ride= rideService.returnRide(rid);
-			return new ResponseEntity<>(ride,HttpStatus.OK);
+			System.out.println("Received request for /customer/return/" + rid);
+			return new ResponseEntity<>(rideService.returnRideDetails(rid),HttpStatus.OK);
 		}
 	
 		@GetMapping("/booked-rides/{cid}")

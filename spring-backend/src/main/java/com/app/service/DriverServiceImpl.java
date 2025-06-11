@@ -123,6 +123,11 @@ public class DriverServiceImpl implements IDriverService {
 		rideRepo.save(ride);
 		return "Ride Details Updated Successfully";
 	}
+
+	@Override
+	public Driver findDriverById(Integer did) {
+		return driverRepo.findById(did).orElse(null);
+	}
 	
 	
 	

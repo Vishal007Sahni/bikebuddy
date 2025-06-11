@@ -1,4 +1,3 @@
-
 package com.app.controller;
 
 import java.util.List;
@@ -94,6 +93,22 @@ public class DriverController {
 	public ResponseEntity<?> deleteRide(@PathVariable Integer rid){
 	
 		return new ResponseEntity<>(driverService.deleteRide(rid),HttpStatus.OK);
+	}
+	
+	// Add this endpoint to fetch driver details by driver id (did)
+	@GetMapping("/{did}")
+	public ResponseEntity<?> getDriverById(@PathVariable Integer did) {
+		try {
+			Driver driver = driverService.findDriverById(did);
+			if (driver == null) {
+				return new ResponseEntity<>("Driver not found", HttpStatus.NOT_FOUND);
+			}
+			// Return user details (name, mobile, email, etc.) from driver.user
+			User user = driver.getUser();
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Driver not found", HttpStatus.NOT_FOUND);
+		}
 	}
 	
 }

@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Team from "./Pages/Team";
 import About from "./Pages/About";
-import Career from "./Pages/Career";
 import Contact from "./Pages/Contact";
 import AdminLogin from "./components/admin/AdminLogin";
 import DriverSignup from "./components/driver/DriverSignup";
@@ -52,7 +51,6 @@ function App() {
           <Route path="/" element={<CustDash />} />
           <Route path="/team" element={<Team />} />
           <Route path="/about-us" element={<About />} />
-          <Route path="/career" element={<Career />} />
           <Route path="/contact-us" element={<Contact />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/driver/register" element={<DriverSignup />} />

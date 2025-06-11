@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.dto.FindRideDto;
 import com.app.dto.RideDto;
+import com.app.dto.RideDetailsDto;
 import com.app.pojos.CompanyAccount;
 import com.app.pojos.Customer;
 import com.app.pojos.Rides;
@@ -161,11 +162,25 @@ public class RideServiceImpl implements IRideService {
 	public Rides findRides(Integer rid) {
 		return rideRepo.findById(rid).orElseThrow(()->new RuntimeException("Ride Not Found"));
 	}
-	
-	
-	
-	
-	
-	
 
+	@Override
+	public RideDetailsDto returnRideDetails(Integer rid) {
+		Rides ride = rideRepo.findById(rid).orElseThrow(() -> new RuntimeException("Ride Not found"));
+		String driverName = "";
+		long driverPhone = 0;
+		if (ride.getDriver() != null && ride.getDriver().getUser() != null) {
+			driverName = ride.getDriver().getUser().getName();
+			driverPhone = ride.getDriver().getUser().getMobile();
+		}
+		return new RideDetailsDto(
+			ride.getRid(),
+			ride.getSource(),
+			ride.getDest(),
+			ride.getCharges(),
+			ride.getTime(),
+			ride.getDate(),
+			driverName,
+			driverPhone
+		);
+	}
 }
