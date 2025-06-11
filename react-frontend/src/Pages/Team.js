@@ -14,7 +14,7 @@ export default class Team extends Component {
             {[{
               name: 'Vishal Sahni',
               role: 'DataBase Handling',
-              img: '/images/Vishal.jpeg'
+              img: '/images/Vishal2.jpeg'
             }, {
               name: 'Aditya Singh',
               role: 'Frontend Lead',
